@@ -1,5 +1,8 @@
 package catering.info;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * EmployeeInformation
  * 
@@ -18,6 +21,7 @@ public class EmployeeInformation {
 	private String email;
 	private String billingStart;
 	private String billingEnd;
+	private List<EventInformation> listOfEvents;
 
 	public EmployeeInformation(String name, String address, String email,
 			String billingStart, String billingEnd) {
@@ -29,6 +33,7 @@ public class EmployeeInformation {
 		this.city = "";
 		this.state = "";
 		this.zip = "";
+		this.listOfEvents = new ArrayList<EventInformation>();
 	}
 
 	public EmployeeInformation(String name, String address, String city,
@@ -42,6 +47,7 @@ public class EmployeeInformation {
 		this.email = email;
 		this.billingStart = billingStart;
 		this.billingEnd = billingEnd;
+		this.listOfEvents = new ArrayList<EventInformation>();
 	}
 
 	/*
@@ -110,6 +116,18 @@ public class EmployeeInformation {
 	public void setBillingEnd(String billingEnd) {
 		this.billingEnd = billingEnd;
 	}
+
+	public List<EventInformation> getListOfEvents() {
+		return listOfEvents;
+	}
+
+	public void setListOfEvents(List<EventInformation> listOfEvents) {
+		this.listOfEvents = listOfEvents;
+	}
 	/* ------------------------------------------------------------ */
+	
+	public void add(EventInformation event) {
+		this.listOfEvents.add(event);
+	}
 
 }
