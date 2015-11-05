@@ -26,11 +26,13 @@ public class EmployeeInformation {
 		this.email = email;
 		this.billingStart = billingStart;
 		this.billingEnd = billingEnd;
-
+		this.city = "";
+		this.state = "";
+		this.zip = "";
 	}
 
-	public EmployeeInformation(String name, String address, String email,
-			String city, String state, String zip, String billingStart,
+	public EmployeeInformation(String name, String address, String city,
+			String state, String zip, String email, String billingStart,
 			String billingEnd) {
 		this.name = name;
 		this.address = address;
