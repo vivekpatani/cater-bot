@@ -1,5 +1,6 @@
 package catering.info;
 
+import Model.EmployeeInformation;
 import junit.framework.TestCase;
 
 public class EmployeeTest extends TestCase {

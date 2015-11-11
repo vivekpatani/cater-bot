@@ -1,5 +1,6 @@
 package catering.info;
 
+import Model.EventInformation;
 import junit.framework.TestCase;
 
 public class EventTest extends TestCase {

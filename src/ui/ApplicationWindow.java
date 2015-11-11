@@ -22,10 +22,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import Main.Constants;
-import Main.Launcher;
 
 public class ApplicationWindow extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public final static Logger log = LogManager.getLogger(ApplicationWindow.class.getName());
 	private static JFrame mainFrame;
 	private static Dimension dim;
