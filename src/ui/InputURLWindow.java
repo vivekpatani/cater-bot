@@ -7,14 +7,15 @@ package ui;
  * The URL refers to the one which needs to be scraped.
  */
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -27,11 +28,14 @@ public class InputURLWindow {
 	private static JPanel windowPanel;
 	private static JTextField inputURL = new JTextField("20");
 	private static JButton submitURL = new JButton(Constants.SUBMIT_URL_BUTTON);
-	private static JLabel header = new JLabel(Constants.SOFTWARE_NAME);
+	private GridBagLayout gridBagLayout;
+	private GridBagConstraints gridBagConstraints;
 	
 	DataController controller = new DataController();
 	
 	public InputURLWindow() {
+		gridBagLayout = new GridBagLayout();
+		initGridBagConstraints();
 		initComponents();
 	}
 
@@ -45,26 +49,12 @@ public class InputURLWindow {
 		windowPanel = new JPanel();
 		windowPanel.setLayout(new GridBagLayout());
 
-		// Set Panel Size
-		windowPanel.setSize(Constants.windowWidth, Constants.windowHeight);
-		
-		// To put the GridBagLayout Constraints
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.insets = new Insets(Constants.SUBMITBUTTON_BORDER,Constants.SUBMITBUTTON_BORDER,Constants.SUBMITBUTTON_BORDER,Constants.SUBMITBUTTON_BORDER);
-		windowPanel.add(header, gbc);
+		//set the frame to a smaller size
+		Dimension dim = mainFrame.getSize();
+		mainFrame.setSize(dim.width/2, dim.height/2);
 
-		// Setting the Input Box
-		gbc.gridy++;
-		gbc.insets = new Insets (0,00,0,0);
-		windowPanel.add(inputURL,gbc);
-		
-		// The placement of the button
-		submitURL.setMargin(new Insets(Constants.SUBMITBUTTON_BORDER,Constants.SUBMITBUTTON_BORDER,Constants.SUBMITBUTTON_BORDER,Constants.SUBMITBUTTON_BORDER));
-		gbc.insets = new Insets(0,0,0,0);
-		gbc.weighty = 1.0;
-		windowPanel.add(submitURL, gbc);
+		windowPanel.add(inputURL,setGridBagConstraints(0, 0));
+		windowPanel.add(submitURL, setGridBagConstraints(0, 1));
 
 		submitURL.addActionListener(new ActionListener() {
 
@@ -84,5 +74,19 @@ public class InputURLWindow {
 		windowPanel.setVisible(true);
 		mainFrame.add(windowPanel);
 
+	}
+	
+	private void initGridBagConstraints() {
+		gridBagConstraints = new GridBagConstraints();
+		gridBagConstraints.weightx = 0.5;
+		gridBagConstraints.weighty = 0.0;
+		gridBagConstraints.insets = new Insets(5, 5, 0, 5);
+		gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+	}
+	
+	private GridBagConstraints setGridBagConstraints(int x, int y) {
+		gridBagConstraints.gridx = x;
+		gridBagConstraints.gridy = y;
+		return gridBagConstraints;
 	}
 }
