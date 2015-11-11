@@ -9,12 +9,15 @@ package ui;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
 import Controller.DataController;
 import Main.Constants;
 
@@ -22,51 +25,52 @@ public class InputURLWindow {
 
 	private static JFrame mainFrame = ApplicationWindow.getFrame();
 	private static JPanel windowPanel;
+	private static JTextField inputURL = new JTextField("20");
+	private static JButton submitURL = new JButton(Constants.SUBMIT_URL_BUTTON);
+	private static JLabel header = new JLabel(Constants.SOFTWARE_NAME);
+	
 	DataController controller = new DataController();
 	
 	public InputURLWindow() {
 		initComponents();
 	}
 
+	/*
+	 * This is used to generate the components use to obtain
+	 * information from the user.
+	 */
 	private void initComponents() {
 
 		// Defining a Panel on which everything will be set
 		windowPanel = new JPanel();
 		windowPanel.setLayout(new GridBagLayout());
 
-		// To put the GridBagLayout Constraints
-		GridBagConstraints c = new GridBagConstraints();
-
 		// Set Panel Size
 		windowPanel.setSize(Constants.windowWidth, Constants.windowHeight);
+		
+		// To put the GridBagLayout Constraints
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.insets = new Insets(Constants.SUBMITBUTTON_BORDER,Constants.SUBMITBUTTON_BORDER,Constants.SUBMITBUTTON_BORDER,Constants.SUBMITBUTTON_BORDER);
+		windowPanel.add(header, gbc);
 
 		// Setting the Input Box
-		final JTextArea inputURL = new JTextArea();
-		inputURL.setLineWrap(true);
-		inputURL.setWrapStyleWord(true);
-		c.fill = GridBagConstraints.CENTER;
-		c.ipady = 50;
-		c.weightx = 0.0;
-		c.gridwidth = 3;
-		c.gridx = 0;
-		c.gridy = 1;
-		windowPanel.add(inputURL, c);
-
-		// Adding the start button
-		JButton submitURL = new JButton(Constants.SUBMIT_URL_BUTTON);
-
+		gbc.gridy++;
+		gbc.insets = new Insets (0,00,0,0);
+		windowPanel.add(inputURL,gbc);
+		
 		// The placement of the button
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.ipady = 60;
-		c.weightx = 0.0;
-		c.gridwidth = 3;
-		c.gridx = 0;
-		c.gridy = 2;
-		windowPanel.add(submitURL, c);
+		submitURL.setMargin(new Insets(Constants.SUBMITBUTTON_BORDER,Constants.SUBMITBUTTON_BORDER,Constants.SUBMITBUTTON_BORDER,Constants.SUBMITBUTTON_BORDER));
+		gbc.insets = new Insets(0,0,0,0);
+		gbc.weighty = 1.0;
+		windowPanel.add(submitURL, gbc);
 
 		submitURL.addActionListener(new ActionListener() {
 
-			/* The action performed by the start button*/
+			/* 
+			 * The action performed by the start button
+			 */
 			public void actionPerformed(ActionEvent e) {
 				String userURL = inputURL.getText();
 				controller.setURL(userURL);
@@ -77,6 +81,7 @@ public class InputURLWindow {
 		});
 
 		/* Adding the components on Panel to Frame*/
+		windowPanel.setVisible(true);
 		mainFrame.add(windowPanel);
 
 	}

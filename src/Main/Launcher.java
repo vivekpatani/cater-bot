@@ -21,5 +21,5 @@ public class Launcher{
     public static void main(String[] args) {
 				
 			ApplicationWindow appWindow = new ApplicationWindow();
-			appWindow.setVisible(true);
-    }}
+    }
+}
