@@ -1,4 +1,4 @@
-package com.cateringxpert.constants;
+package Main;
 
 /*
  * Constants.java
@@ -17,5 +17,7 @@ public class Constants {
 	public static final String LOGO_DIR = "resources/logo.jpg";
 	public static final String START_BUTTON = "Lets Scrape the Page";
 	public static final String SUBMIT_URL_BUTTON = "Submit The URL";
+	public static final int FRAME_WIDTH = 1000;
+	public static final int FRAME_HEIGHT = 900;
 
 }
