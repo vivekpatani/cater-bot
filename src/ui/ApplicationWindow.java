@@ -18,14 +18,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import Main.Constants;
 import Main.Launcher;
 
 public class ApplicationWindow extends JFrame {
 
-	public final static Logger log = Logger.getLogger(Launcher.class);
+	public final static Logger log = LogManager.getLogger(ApplicationWindow.class.getName());
 	private static JFrame mainFrame;
 	private static Dimension dim;
 	private static BufferedImage logo;

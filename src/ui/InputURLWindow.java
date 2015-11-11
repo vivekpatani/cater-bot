@@ -41,7 +41,7 @@ public class InputURLWindow {
 		windowPanel.setSize(Constants.windowWidth, Constants.windowHeight);
 
 		// Setting the Input Box
-		JTextArea inputURL = new JTextArea();
+		final JTextArea inputURL = new JTextArea();
 		inputURL.setLineWrap(true);
 		inputURL.setWrapStyleWord(true);
 		c.fill = GridBagConstraints.CENTER;
