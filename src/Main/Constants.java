@@ -19,5 +19,11 @@ public class Constants {
 	public static final String SUBMIT_URL_BUTTON = "Submit The URL";
 	public static final int FRAME_WIDTH = 1000;
 	public static final int FRAME_HEIGHT = 900;
-
+	public static final int LOGO_IPAD_Y = 50;
+	public static final int LOGO_GRIDWIDTH_LOGO = 3;
+	public static final int LOGO_GRID_Y = 1;
+	public static final int STARTBUTTON_IPAD_Y = 60;
+	public static final int STARTBUTTON_GRIDWIDTH_Y = 6;
+	public static final int STARTBUTTON_GRID_Y = 2;
+	public static final int SUBMITBUTTON_BORDER = 10;
 }

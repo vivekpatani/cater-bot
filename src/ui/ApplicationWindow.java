@@ -23,115 +23,129 @@ import org.apache.logging.log4j.Logger;
 
 import Main.Constants;
 
-public class ApplicationWindow extends JFrame {
+public class ApplicationWindow{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	public final static Logger log = LogManager.getLogger(ApplicationWindow.class.getName());
-	private static JFrame mainFrame;
-	private static Dimension dim;
-	private static BufferedImage logo;
-	private static JPanel mainPanel;
-	// To put the GridBagLayout Constraints
-	GridBagConstraints c = new GridBagConstraints();
+		/**
+	 	* 
+	 	*/
+		public final static Logger log = LogManager.getLogger(ApplicationWindow.class.getName());
+		private static JFrame mainFrame;
+		private static Dimension dim;
+		private static BufferedImage logo;
+		private static JPanel mainPanel;
+		
+		//To put the GridBagLayout Constraints
+		GridBagConstraints c = new GridBagConstraints();
 
-
-    public static JFrame getFrame(){
-    	return mainFrame;
-    }
-    
-	public ApplicationWindow() {
-		createAppWindow();
-	}
-
-	/**
-	 * This method creates a app window for the app screen.
-	 */
-	private void createAppWindow() {
-
-		// Set look and feel to that of OS
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e) {
-			log.error(Constants.ERROR_MESSAGE, e);
+		/*
+		 * To make use of a single frame throughtout the code
+		 */
+	    public static JFrame getFrame(){
+	    	return mainFrame;
+	    }
+	    
+	    /*
+	     * Basic Constructer to initiate call 
+	     */
+		public ApplicationWindow() {
+			createAppWindow();
 		}
 
-		// Defining the Frame and its properties
-		mainFrame = new JFrame(Constants.SOFTWARE_NAME);
-		mainFrame.setSize(Constants.windowWidth, Constants.windowHeight);
-		mainFrame.setResizable(false);
-		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		/**
+		 * This method creates a app window for the app screen.
+		 */
+		private void createAppWindow() {
 
-		// Defining a Panel on which everything will be set
-		mainPanel = new JPanel();
-		mainPanel.setLayout(new GridBagLayout());
-
-		// Set Panel Size
-		mainPanel.setSize(Constants.windowWidth, Constants.windowHeight);
-		setUpLogo();
-		addStartButton();
-
-		// Adding the components on Panel to Frame
-		mainFrame.add(mainPanel);
-
-		/* Place mainFrame in the middle of the screen */
-		try {
-			dim = Toolkit.getDefaultToolkit().getScreenSize();
-			mainFrame.setLocation(dim.width / 2 - mainFrame.getSize().width / 2,
-					dim.height / 2 - mainFrame.getSize().height / 2);
-		} catch (Exception e) {
-			log.error(Constants.ERROR_MESSAGE, e);
-		}
-
-		// Setting the visibility once the properties are defined
-		mainFrame.setVisible(true);
-
-	}
-
-	private void setUpLogo() {
-		// Importing the logo for the software
-		try {
-			logo = ImageIO.read(new File(Constants.LOGO_DIR));
-		} catch (IOException e) {
-			// Auto-generated catch block
-			log.error(Constants.ERROR_MESSAGE, e);
-		}
-
-		// Add the logo to the panel
-		JLabel picLabel = new JLabel(new ImageIcon(logo));
-		c.fill = GridBagConstraints.CENTER;
-		c.ipady = 50;
-		c.weightx = 0.0;
-		c.gridwidth = 3;
-		c.gridx = 0;
-		c.gridy = 1;
-		mainPanel.add(picLabel, c);
-	}
-
-	private void addStartButton() {
-		// Adding the start button
-		JButton start = new JButton(Constants.START_BUTTON);
-		// The placement of the button
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.ipady = 60;
-		c.weightx = 0.0;
-		c.gridwidth = 6;
-		c.gridx = 0;
-		c.gridy = 2;
-		mainPanel.add(start, c);
-
-		start.addActionListener(new ActionListener() {
-
-			// The action performed by the start button
-			public void actionPerformed(ActionEvent e) {
-				// Execute when button is pressed
-				mainPanel.setVisible(false);
-				mainPanel.validate();
-				InputURLWindow inputURL = new InputURLWindow();
+			/*
+			 *  Set look and feel to that of OS
+			 */
+			try {
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			} catch (Exception e) {
+				log.error(Constants.ERROR_MESSAGE, e);
 			}
-		});
 
+			// Defining the Frame and its properties
+			mainFrame = new JFrame(Constants.SOFTWARE_NAME);
+			mainFrame.setSize(Constants.windowWidth, Constants.windowHeight);
+			mainFrame.setResizable(false);
+			mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+			// Defining a Panel on which everything will be set
+			mainPanel = new JPanel();
+			mainPanel.setLayout(new GridBagLayout());
+
+			// Set Panel Size
+			mainPanel.setSize(Constants.windowWidth, Constants.windowHeight);
+			setUpLogo();
+			addStartButton();
+
+			// Adding the components on Panel to Frame
+			mainFrame.add(mainPanel);
+
+			/* 
+			 *Place mainFrame in the middle of the screen
+			 */
+			try {
+				dim = Toolkit.getDefaultToolkit().getScreenSize();
+				mainFrame.setLocation(dim.width / 2 - mainFrame.getSize().width / 2,
+						dim.height / 2 - mainFrame.getSize().height / 2);
+			} catch (Exception e) {
+				log.error(Constants.ERROR_MESSAGE, e);
+			}
+
+			// Setting the visibility once the properties are defined
+			mainFrame.setVisible(true);
+
+		}
+
+		/*
+		 * To put the logo
+		 */
+		private void setUpLogo() {
+			
+			// Importing the logo for the software
+			try {
+				logo = ImageIO.read(new File(Constants.LOGO_DIR));
+			} catch (IOException e) {
+				// Auto-generated catch block
+				log.error(Constants.ERROR_MESSAGE, e);
+			}
+
+			// Add the logo to the panel
+			JLabel picLabel = new JLabel(new ImageIcon(logo));
+			c.fill = GridBagConstraints.CENTER;
+			c.ipady = Constants.LOGO_IPAD_Y;
+			c.weightx = 0;
+			c.gridwidth = Constants.LOGO_GRIDWIDTH_LOGO;
+			c.gridx = 0;
+			c.gridy = Constants.LOGO_GRID_Y;
+			mainPanel.add(picLabel, c);
+		}
+
+		private void addStartButton() {
+			
+			// Adding the start button
+			JButton start = new JButton(Constants.START_BUTTON);
+			// The placement of the button
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.ipady = Constants.STARTBUTTON_IPAD_Y;
+			c.weightx = 0.0;
+			c.gridwidth = Constants.STARTBUTTON_GRIDWIDTH_Y;
+			c.gridx = 0;
+			c.gridy = Constants.STARTBUTTON_GRID_Y;
+			mainPanel.add(start, c);
+
+			start.addActionListener(new ActionListener() {
+
+				// The action performed by the start button
+				public void actionPerformed(ActionEvent e) {
+					// Execute when button is pressed
+					mainPanel.setVisible(false);
+					mainPanel.validate();
+					InputURLWindow inputURL = new InputURLWindow();
+				}
+			});
+
+		}
 	}
-}
