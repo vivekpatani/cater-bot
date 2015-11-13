@@ -19,11 +19,17 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import Controller.DataController;
+import Controller.WebController;
 import Main.Constants;
 
 public class InputURLWindow {
-
+	
+	public static final Logger LOGGER = LogManager.getLogger(InputURLWindow.class.getName());
+	
 	private static JFrame mainFrame = ApplicationWindow.getFrame();
 	private static JPanel windowPanel;
 	private static JTextField inputURL = new JTextField("20");
@@ -32,6 +38,7 @@ public class InputURLWindow {
 	private GridBagConstraints gridBagConstraints;
 	
 	DataController controller = new DataController();
+	WebController wc  = new WebController();
 	
 	public InputURLWindow() {
 		gridBagLayout = new GridBagLayout();
@@ -47,7 +54,7 @@ public class InputURLWindow {
 
 		// Defining a Panel on which everything will be set
 		windowPanel = new JPanel();
-		windowPanel.setLayout(new GridBagLayout());
+		windowPanel.setLayout(gridBagLayout);
 
 		//set the frame to a smaller size
 		Dimension dim = mainFrame.getSize();
@@ -63,7 +70,13 @@ public class InputURLWindow {
 			 */
 			public void actionPerformed(ActionEvent e) {
 				String userURL = inputURL.getText();
-				controller.setURL(userURL);
+				//controller.setURL(userURL);
+				wc.setTargetPage(userURL);
+				try {
+					wc.login("jrivero", "3513usa");
+				} catch (Exception e1) {
+					LOGGER.error(e1);
+				}
 				windowPanel.setVisible(false);
 				windowPanel.validate();
 				// DisplayOutput output = new DisplayOutput(userURL);
