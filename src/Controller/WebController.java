@@ -22,6 +22,8 @@ public class WebController {
 	
 	private String targetPage;
 	
+	private String followingPage;
+	
 
 	public WebController(String url) {
 		this.setCapabilities();
@@ -47,8 +49,26 @@ public class WebController {
 	public void goToPage() {
 		this.firefoxDriver.get(this.targetPage);
 	}
-
 	
+	public String getSourcePage() {
+		return this.firefoxDriver.getPageSource();
+	}
+	
+	
+	public String getFrame() {
+		WebElement item = this.firefoxDriver.findElement(By.name("right"));
+		this.firefoxDriver.switchTo().frame(item);
+		return this.firefoxDriver.getPageSource();
+	}
+	
+	/**
+	 * login()
+	 * finds user and password elements. We set this elements with
+	 * user defined information to log in.
+	 * @param username
+	 * @param password
+	 * @throws Exception
+	 */
 	public void login(String username, String password) throws Exception {
 		//domain specific (CaterXpert)
 		WebElement user = this.firefoxDriver.findElement(By.name("userBean.userName"));
@@ -59,6 +79,7 @@ public class WebController {
 		pass.sendKeys(password);
 		//perform web click on the button
 		loginButton.click();
+		this.followingPage = this.firefoxDriver.getCurrentUrl();
 	}
 	
 	
@@ -108,12 +129,25 @@ public class WebController {
 		this.targetPage = targetPage;
 	}
 	
+
+	public String getFollowingPage() {
+		return followingPage;
+	}
+
+
+	public void setFollowingPage(String following) {
+		this.followingPage = following;
+	}
+	
+	
+	//MAIN (testing purposes)
 	public static void main(String[] args) throws Exception {
 		WebController wc = new WebController("http://designcuisine.com/staff");
 		
-		wc.login("andresr", "123456");
+		wc.login("jrivero", "3513usa");
 		
-		System.out.println(wc.getTargetPage());
+		System.out.println(wc.getFrame());		
+		
 		
 		Thread.sleep(5000);
 		wc.quit();
