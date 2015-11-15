@@ -30,7 +30,7 @@ public class InputURLWindow {
 	
 	public static final Logger LOGGER = LogManager.getLogger(InputURLWindow.class.getName());
 	
-	private static JFrame mainFrame = ApplicationWindow.getFrame();
+	private static MainWindow mainWindow = new MainWindow();
 	private static JPanel windowPanel;
 	private static JTextField inputURL = new JTextField("20");
 	private static JButton submitURL = new JButton(Constants.SUBMIT_URL_BUTTON);
@@ -57,8 +57,8 @@ public class InputURLWindow {
 		windowPanel.setLayout(gridBagLayout);
 
 		//set the frame to a smaller size
-		Dimension dim = mainFrame.getSize();
-		mainFrame.setSize(dim.width/2, dim.height/2);
+		Dimension dim = mainWindow.getSize();
+		mainWindow.setSize(dim.width/2, dim.height/2);
 
 		windowPanel.add(inputURL,setGridBagConstraints(0, 0));
 		windowPanel.add(submitURL, setGridBagConstraints(0, 1));
@@ -85,7 +85,7 @@ public class InputURLWindow {
 
 		/* Adding the components on Panel to Frame*/
 		windowPanel.setVisible(true);
-		mainFrame.add(windowPanel);
+		mainWindow.add(windowPanel);
 
 	}
 	
