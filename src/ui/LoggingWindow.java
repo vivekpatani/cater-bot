@@ -12,66 +12,73 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class LoggingWindow {
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import Main.Constants;
+
+public class LoggingWindow extends AbstractPanel {
 	
-	/**
-	 * 
-	 */
+	public final static Logger LOGGER = LogManager
+			.getLogger(LoggingWindow.class.getName());
+	
 	private static final long serialVersionUID = 1L;
-	private static JFrame mainFrame = ApplicationWindow.getFrame();
-	private static JPanel windowPanel;
-	private Dimension dim = mainFrame.getSize();
-	private GridBagConstraints gridBagConstraints;
-	private JButton loginButton;
+	
 	private JLabel userLabel;
 	private JLabel passLabel;
 	private JTextField userText;
 	private JPasswordField passText;
+	private JButton loginButton;
+	private JButton cancelButton;
 	
 	public LoggingWindow() {
-		windowPanel = new JPanel();
+		super();
+		init();
+	}
+	
+	
+	public void init() {
+		super.setName(Constants.LOGIN);
+		this.setSize(Constants.WINDOW_WIDTH/3, Constants.WINDOW_HEIGHT/3);
+		this.setResizable(false);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		/* Place frame in the middle of the screen */
+		try {
+			super.center(this);
+		} catch (Exception e) {
+			LOGGER.error(Constants.ERROR_MESSAGE, e);
+		}
+		
+		setUpLabel();
+		setUpTextField();
+		setUpButton();
+	}
+	
+	public void setUpLabel() {
 		this.userLabel = new JLabel("Username");
 		this.passLabel = new JLabel("Password");
+		super.getPanel().add(this.userLabel, super.setGridLocation(0,0));
+		super.getPanel().add(this.passLabel, super.setGridLocation(0,1));
+	}
+	
+	public void setUpTextField() {
 		this.userText = new JTextField();
+		this.userText.setPreferredSize(new Dimension(Constants.FIELD_WIDHT, Constants.FIELD_HEIGHT));
 		this.passText = new JPasswordField();
+		this.passText.setPreferredSize(new Dimension(Constants.FIELD_WIDHT, Constants.FIELD_HEIGHT));
+		super.getPanel().add(this.userText, super.setGridLocation(1,0));
+		super.getPanel().add(this.passText, super.setGridLocation(1,1));
+	}
+	
+	public void setUpButton() {
 		this.loginButton = new JButton();
-		initGridBagConstraints();
-		initWindow();
+		this.loginButton.setText(Constants.LOGIN);
+		super.getPanel().add(this.loginButton, super.setGridLocation(1, 2));
 	}
 	
-	public void initWindow() {
-		windowPanel.setLayout(new GridBagLayout());
-		this.userLabel.setText("Username");
-		this.passLabel.setText("Password");
-		this.userText.setToolTipText("type in username");
-		this.passText.setToolTipText("type in password");
-		this.loginButton.setText("Log In");
-		this.loginButton.setEnabled(false);
-		
-		Dimension dim = mainFrame.getSize();
-		
-		mainFrame.setSize(dim.width/2, dim.height/2);
-		
-		windowPanel.add(this.userLabel, setGridBagConstraints(0,0));
-		windowPanel.add(this.userText, setGridBagConstraints(1,0));
-		windowPanel.add(this.passLabel, setGridBagConstraints(0,1));
-		windowPanel.add(this.passText, setGridBagConstraints(1,1));
-		windowPanel.add(this.loginButton, setGridBagConstraints(1,2));
-		mainFrame.add(windowPanel);
-	}
-	
-	private void initGridBagConstraints() {
-		gridBagConstraints = new GridBagConstraints();
-		gridBagConstraints.weightx = 0.5;
-		gridBagConstraints.weighty = 0.0;
-		gridBagConstraints.insets = new Insets(5, 5, 0, 5);
-		gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
-	}
-	
-	private GridBagConstraints setGridBagConstraints(int x, int y) {
-		gridBagConstraints.gridx = x;
-		gridBagConstraints.gridy = y;
-		return gridBagConstraints;
+	public JButton getLoginButton() {
+		return this.loginButton;
 	}
 	
 }
