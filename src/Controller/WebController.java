@@ -1,8 +1,15 @@
 package Controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
@@ -11,6 +18,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import Model.EventInformation;
+
+import org.apache.poi.ss.usermodel.Cell;
 
 /**
  * WebController
@@ -22,6 +31,7 @@ import Model.EventInformation;
  */
 public class WebController {
 
+	
 	private FirefoxDriver firefoxDriver;
 
 	private DesiredCapabilities capabilities;
@@ -29,6 +39,10 @@ public class WebController {
 	private String targetPage;
 
 	private String followingPage;
+	static HSSFWorkbook workbook = new HSSFWorkbook();
+	static HSSFSheet sheet = workbook.createSheet("Caterer's Info");
+	Cell cell;
+	Row excelRow;
 
 	public WebController(String url) {
 		this.setCapabilities();
@@ -190,7 +204,8 @@ public class WebController {
 	}
 
 	// MAIN (testing purposes)
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception 
+	{
 		WebController wc = new WebController("http://designcuisine.com/staff");
 
 		wc.login("jrivero", "3513usa");
@@ -198,12 +213,48 @@ public class WebController {
 
 		wc.getFrame();
 		List<EventInformation> eventList = wc.getEventListBy("eventsList");
-		
-		for(EventInformation ei : eventList) {
-			ei.print();
-		}
 
-		Thread.sleep(5000);
-		wc.quit();
-	}
+//		for(EventInformation ei : eventList) {
+//			ei.print();
+//			for(int RowNum=0; RowNum<eventList.size();RowNum++){
+//			    HSSFRow row = sheet.createRow(RowNum);
+//			    for(int ColNum=0; ColNum<10;ColNum++){
+//			        Cell cell = row.createCell(ColNum);
+//			        //cell.setCellValue(eventList.toArray());
+//			        
+//			        cell.setCellValue(e1.getDate());
+//			        
+//			        
+//			        
+//			     }
+//			    }}
+			    if (!eventList.isEmpty())
+	            {
+	                int rowNumber = 2;
+	                for (EventInformation s : eventList)
+	                {
+	                	s.print();
+	                    HSSFRow nextrow = sheet.createRow(rowNumber);
+	                    nextrow.createCell(0).setCellValue(s.getEventID());
+	                    nextrow.createCell(1).setCellValue(s.getPosition() );
+	                    nextrow.createCell(2).setCellValue(s.getCustomerName());
+	                    nextrow.createCell(3).setCellValue(s.getCallIn());
+	                    nextrow.createCell(4).setCellValue(s.getCallOut());
+	                    nextrow.createCell(5).setCellValue(s.getHoursWorked());
+	                    nextrow.createCell(6).setCellValue(s.getEventLocation());
+	                    nextrow.createCell(7).setCellValue(s.getDate());
+
+	                    rowNumber++;
+	                }
+	            }
+			    FileOutputStream out;
+				out = new FileOutputStream(new File("/Users/Shruti/Documents/Fall-2015/OOSD/Output/newInfo.xls"));
+				workbook.write(out);
+				out.close();
+				Thread.sleep(5000);wc.quit();
+			 }
+			
+		
+	
 }
+

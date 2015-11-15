@@ -36,6 +36,11 @@
 			<artifactId>htmlunit</artifactId>
 			<version>2.18</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.13</version>
+		</dependency>
 	</dependencies>
 
 	<build>

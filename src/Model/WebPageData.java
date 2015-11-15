@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-
+import org.apache.poi.ss.usermodel.Cell;
 /*import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -22,7 +22,7 @@ public class WebPageData {
 		//Row excelRow;
 		int rownum = 0;
 		int colnum = 0;
-		//Cell cell;
+		Cell cell;
 		Document doc;
 		try {
 			doc = Jsoup
