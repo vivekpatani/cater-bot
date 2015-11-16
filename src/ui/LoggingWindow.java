@@ -71,8 +71,8 @@ public class LoggingWindow extends AbstractPanel {
 		this.loginButton.setText(Constants.LOGIN);
 		this.cancelButton = new JButton();
 		this.cancelButton.setText(Constants.CANCEL);
-		super.getPanel().add(this.loginButton, super.setGridLocation(1, 2));
-		super.getPanel().add(this.cancelButton, super.setGridLocation(0, 2));
+		super.getPanel().add(this.loginButton, super.setGridLocation(0, 2));
+		super.getPanel().add(this.cancelButton, super.setGridLocation(1, 2));
 	}
 	
 	public JButton getLoginButton() {
