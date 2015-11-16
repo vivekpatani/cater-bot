@@ -1,7 +1,5 @@
 package ui;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +13,6 @@ import javax.swing.JLabel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import Controller.ViewController;
 import Main.Constants;
 
 public class MainWindow extends AbstractPanel {

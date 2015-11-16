@@ -7,15 +7,12 @@ package Main;
  * Defines basic frame properties
  */
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
-
-import javax.swing.JFrame;
 import javax.swing.UIManager;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import ui.EditingWindow;
 import ui.LoggingWindow;
 import ui.MainWindow;
 import Controller.ViewController;
@@ -28,8 +25,9 @@ public class Launcher {
 	public static void main(String[] args) {
 		MainWindow mainWindow = new MainWindow();
 		LoggingWindow loginWindow = new LoggingWindow();
+		EditingWindow editWindow = new EditingWindow();
 		ViewController viewController = new ViewController(mainWindow,
-				loginWindow);
+				loginWindow, editWindow);
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -38,6 +36,7 @@ public class Launcher {
 		}
 
 		mainWindow.setVisible(true);
+		editWindow.setVisible(false);
 		loginWindow.setVisible(false);
 	}
 }

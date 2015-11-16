@@ -14,8 +14,17 @@ public class Constants {
 	public static final String SOFTWARE_NAME = "CateringXpert 0.9";
 	public static final String LOGO_DIR = "resources/logo.jpg";
 	public static final String START_BUTTON = "Lets Scrape the Page";
-	public static final String SUBMIT_URL_BUTTON = "Submit The URL";
-	public static final String LOGIN = "LogIn";
+	public static final String SUBMIT_URL_BUTTON = "Submit";
+	public static final String LOGIN = "Log In";
+	public static final String CANCEL = "Cancel";
+	public static final String USERNAME = "Username";
+	public static final String PASSWORD = "Password";
+	public static final String PERSONAL_INFORMATION = "Personal Information";
+	public static final String URL_SCRAPE = "URL";
+	public static final String NAME = "Full Name";
+	public static final String ADDRESS = "Full Address";
+	public static final String EMAIL = "email";
+	public static final String BILLING_PERIOD = "Billing Period";
 	
 	
 	public static final int WINDOW_WIDTH = 700;

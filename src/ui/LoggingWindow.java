@@ -1,14 +1,9 @@
 package ui;
 
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -56,8 +51,8 @@ public class LoggingWindow extends AbstractPanel {
 	}
 	
 	public void setUpLabel() {
-		this.userLabel = new JLabel("Username");
-		this.passLabel = new JLabel("Password");
+		this.userLabel = new JLabel(Constants.USERNAME);
+		this.passLabel = new JLabel(Constants.PASSWORD);
 		super.getPanel().add(this.userLabel, super.setGridLocation(0,0));
 		super.getPanel().add(this.passLabel, super.setGridLocation(0,1));
 	}
@@ -74,11 +69,17 @@ public class LoggingWindow extends AbstractPanel {
 	public void setUpButton() {
 		this.loginButton = new JButton();
 		this.loginButton.setText(Constants.LOGIN);
+		this.cancelButton = new JButton();
+		this.cancelButton.setText(Constants.CANCEL);
 		super.getPanel().add(this.loginButton, super.setGridLocation(1, 2));
+		super.getPanel().add(this.cancelButton, super.setGridLocation(0, 2));
 	}
 	
 	public JButton getLoginButton() {
 		return this.loginButton;
 	}
 	
+	public JButton getCancelButton() {
+		return this.cancelButton;
+	}
 }
