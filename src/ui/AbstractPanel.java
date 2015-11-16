@@ -9,16 +9,11 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public abstract class AbstractPanel extends JFrame {
 
 	/**
 	 * 
 	 */
-	public final static Logger LOGGER = LogManager
-			.getLogger(AbstractPanel.class.getName());
 	private static final long serialVersionUID = 1L;
 	private JPanel panel;
 	private GridBagLayout layout;

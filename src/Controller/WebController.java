@@ -7,11 +7,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
@@ -19,6 +19,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import Main.Constants;
 import Model.EventInformation;
 
 /**
@@ -31,6 +32,9 @@ import Model.EventInformation;
  */
 public class WebController {
 
+	public final static Logger LOGGER = LogManager
+			.getLogger(WebController.class.getName());
+
 	private FirefoxDriver firefoxDriver;
 
 	private DesiredCapabilities capabilities;
@@ -38,10 +42,6 @@ public class WebController {
 	private String targetPage;
 
 	private String followingPage;
-	static HSSFWorkbook workbook = new HSSFWorkbook();
-	static HSSFSheet sheet = workbook.createSheet("Caterer's Info");
-	Cell cell;
-	Row excelRow;
 
 	public WebController(String url) {
 		this.setCapabilities();
@@ -107,7 +107,8 @@ public class WebController {
 				j++;
 				continue;
 			}
-			List<WebElement> rowElements = trElement.findElements(By.tagName("td"));
+			List<WebElement> rowElements = trElement.findElements(By
+					.tagName("td"));
 
 			if (rowElements.size() > 1) {
 
@@ -137,7 +138,8 @@ public class WebController {
 						ei.setCallOut(tdElement.getText());
 						break;
 					case 7:
-						ei.setHoursWorked(Double.parseDouble(tdElement.getText()));
+						ei.setHoursWorked(Double.parseDouble(tdElement
+								.getText()));
 						break;
 					case 8:
 						ei.setEventLocation(tdElement.getText());
@@ -162,8 +164,10 @@ public class WebController {
 	 */
 	public void login(String username, String password) throws Exception {
 		// domain specific (CaterXpert)
-		WebElement user = this.firefoxDriver.findElement(By.name("userBean.userName"));
-		WebElement pass = this.firefoxDriver.findElement(By.name("userBean.password"));
+		WebElement user = this.firefoxDriver.findElement(By
+				.name("userBean.userName"));
+		WebElement pass = this.firefoxDriver.findElement(By
+				.name("userBean.password"));
 		WebElement loginButton = this.firefoxDriver.findElement(By.id("save"));
 		// pass the user and pass
 		user.sendKeys(username);
@@ -218,22 +222,18 @@ public class WebController {
 	public void setFollowingPage(String following) {
 		this.followingPage = following;
 	}
-
-	// MAIN (testing purposes)
-	public static void main(String[] args) throws Exception {
-		WebController wc = new WebController("http://designcuisine.com/staff");
-
-		wc.login("jrivero", "3513usa");
-
-		wc.getFrame();
-		List<EventInformation> eventList = wc.getEventListBy("eventsList");
-		wc.exportToExcel(eventList);
-		Thread.sleep(5000);
-		wc.quit();
-	}
-
+	
+	/**
+	 * exportToExcel()
+	 * writes the items saved in models to excel
+	 * @param eventList
+	 */
+	@SuppressWarnings("resource")
 	private void exportToExcel(List<EventInformation> eventList) {
-		// TODO Auto-generated method stub
+		HSSFWorkbook workbook = new HSSFWorkbook();
+		HSSFSheet sheet = workbook.createSheet("Caterer's Info");
+		FileOutputStream out;
+		
 		if (!eventList.isEmpty()) {
 			int rowNumber = 2;
 			for (EventInformation s : eventList) {
@@ -251,18 +251,28 @@ public class WebController {
 				rowNumber++;
 			}
 		}
-		FileOutputStream out;
 		try {
-			out = new FileOutputStream(new File("D://newInfo.xls"));
-
+			out = new FileOutputStream(new File(System.getProperty("user.home")+"/newDocument.xls"));
 			workbook.write(out);
 			out.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.error(Constants.ERROR_MESSAGE, e);		
 		} catch (IOException e) {
+			LOGGER.error(Constants.ERROR_MESSAGE, e);
 		}
+	}
 
+	// MAIN (testing purposes)
+	public static void main(String[] args) throws Exception {
+		WebController wc = new WebController("http://designcuisine.com/staff");
+
+		wc.login("", "");
+
+		wc.getFrame();
+		List<EventInformation> eventList = wc.getEventListBy("eventsList");
+		wc.exportToExcel(eventList);
+		Thread.sleep(5000);
+		wc.quit();
 	}
 
 }
