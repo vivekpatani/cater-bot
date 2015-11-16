@@ -1,7 +1,9 @@
 package Controller;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +21,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import Model.EventInformation;
 
-import org.apache.poi.ss.usermodel.Cell;
-
 /**
  * WebController
  * 
@@ -31,7 +31,6 @@ import org.apache.poi.ss.usermodel.Cell;
  */
 public class WebController {
 
-	
 	private FirefoxDriver firefoxDriver;
 
 	private DesiredCapabilities capabilities;
@@ -91,8 +90,8 @@ public class WebController {
 	}
 
 	/**
-	 * getEventList()
-	 * go over table and extract all the items in columns
+	 * getEventList() go over table and extract all the items in columns
+	 * 
 	 * @param name
 	 * @return event information name
 	 */
@@ -104,27 +103,46 @@ public class WebController {
 		int j = 0;
 		// get its rows
 		for (WebElement trElement : table.findElements(By.tagName("tr"))) {
-			if(j==0 || j==1 || j==2) {j++; continue;}
-			List<WebElement> rowElements = trElement.findElements(By
-					.tagName("td"));
+			if (j == 0 || j == 1 || j == 2) {
+				j++;
+				continue;
+			}
+			List<WebElement> rowElements = trElement.findElements(By.tagName("td"));
 
 			if (rowElements.size() > 1) {
-				
+
 				int i = 0;
 				EventInformation ei = new EventInformation();
 				// some data columns are useless or irrelevant
 				for (WebElement tdElement : rowElements) {
-					switch(i) {
-					case 0: break;
-					case 1: ei.setEventID(tdElement.getText()); break;
-					case 2: ei.setPosition(tdElement.getText()); break;
-					case 3: ei.setCustomerName(tdElement.getText()); break;
-					case 4: ei.setDate(tdElement.getText()); break;
-					case 5: ei.setCallIn(tdElement.getText()); break;
-					case 6: ei.setCallOut(tdElement.getText()); break;
-					case 7: ei.setHoursWorked(Double.parseDouble(tdElement.getText())); break;
-					case 8: ei.setEventLocation(tdElement.getText());
-					default: break;
+					switch (i) {
+					case 0:
+						break;
+					case 1:
+						ei.setEventID(tdElement.getText());
+						break;
+					case 2:
+						ei.setPosition(tdElement.getText());
+						break;
+					case 3:
+						ei.setCustomerName(tdElement.getText());
+						break;
+					case 4:
+						ei.setDate(tdElement.getText());
+						break;
+					case 5:
+						ei.setCallIn(tdElement.getText());
+						break;
+					case 6:
+						ei.setCallOut(tdElement.getText());
+						break;
+					case 7:
+						ei.setHoursWorked(Double.parseDouble(tdElement.getText()));
+						break;
+					case 8:
+						ei.setEventLocation(tdElement.getText());
+					default:
+						break;
 					}
 					i++;
 				}
@@ -144,10 +162,8 @@ public class WebController {
 	 */
 	public void login(String username, String password) throws Exception {
 		// domain specific (CaterXpert)
-		WebElement user = this.firefoxDriver.findElement(By
-				.name("userBean.userName"));
-		WebElement pass = this.firefoxDriver.findElement(By
-				.name("userBean.password"));
+		WebElement user = this.firefoxDriver.findElement(By.name("userBean.userName"));
+		WebElement pass = this.firefoxDriver.findElement(By.name("userBean.password"));
 		WebElement loginButton = this.firefoxDriver.findElement(By.id("save"));
 		// pass the user and pass
 		user.sendKeys(username);
@@ -204,57 +220,49 @@ public class WebController {
 	}
 
 	// MAIN (testing purposes)
-	public static void main(String[] args) throws Exception 
-	{
+	public static void main(String[] args) throws Exception {
 		WebController wc = new WebController("http://designcuisine.com/staff");
 
 		wc.login("jrivero", "3513usa");
 
-
 		wc.getFrame();
 		List<EventInformation> eventList = wc.getEventListBy("eventsList");
+		wc.exportToExcel(eventList);
+		Thread.sleep(5000);
+		wc.quit();
+	}
 
-//		for(EventInformation ei : eventList) {
-//			ei.print();
-//			for(int RowNum=0; RowNum<eventList.size();RowNum++){
-//			    HSSFRow row = sheet.createRow(RowNum);
-//			    for(int ColNum=0; ColNum<10;ColNum++){
-//			        Cell cell = row.createCell(ColNum);
-//			        //cell.setCellValue(eventList.toArray());
-//			        
-//			        cell.setCellValue(e1.getDate());
-//			        
-//			        
-//			        
-//			     }
-//			    }}
-			    if (!eventList.isEmpty())
-	            {
-	                int rowNumber = 2;
-	                for (EventInformation s : eventList)
-	                {
-	                	s.print();
-	                    HSSFRow nextrow = sheet.createRow(rowNumber);
-	                    nextrow.createCell(0).setCellValue(s.getEventID());
-	                    nextrow.createCell(1).setCellValue(s.getPosition() );
-	                    nextrow.createCell(2).setCellValue(s.getCustomerName());
-	                    nextrow.createCell(3).setCellValue(s.getCallIn());
-	                    nextrow.createCell(4).setCellValue(s.getCallOut());
-	                    nextrow.createCell(5).setCellValue(s.getHoursWorked());
-	                    nextrow.createCell(6).setCellValue(s.getEventLocation());
-	                    nextrow.createCell(7).setCellValue(s.getDate());
+	private void exportToExcel(List<EventInformation> eventList) {
+		// TODO Auto-generated method stub
+		if (!eventList.isEmpty()) {
+			int rowNumber = 2;
+			for (EventInformation s : eventList) {
+				s.print();
+				HSSFRow nextrow = sheet.createRow(rowNumber);
+				nextrow.createCell(0).setCellValue(s.getEventID());
+				nextrow.createCell(1).setCellValue(s.getPosition());
+				nextrow.createCell(2).setCellValue(s.getCustomerName());
+				nextrow.createCell(3).setCellValue(s.getCallIn());
+				nextrow.createCell(4).setCellValue(s.getCallOut());
+				nextrow.createCell(5).setCellValue(s.getHoursWorked());
+				nextrow.createCell(6).setCellValue(s.getEventLocation());
+				nextrow.createCell(7).setCellValue(s.getDate());
 
-	                    rowNumber++;
-	                }
-	            }
-			    FileOutputStream out;
-				out = new FileOutputStream(new File("/Users/Shruti/Documents/Fall-2015/OOSD/Output/newInfo.xls"));
-				workbook.write(out);
-				out.close();
-				Thread.sleep(5000);wc.quit();
-			 }
-			
-		
-	
+				rowNumber++;
+			}
+		}
+		FileOutputStream out;
+		try {
+			out = new FileOutputStream(new File("D://newInfo.xls"));
+
+			workbook.write(out);
+			out.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+		}
+
+	}
+
 }
-
