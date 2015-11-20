@@ -52,17 +52,15 @@ public class ViewController implements ActionListener {
 		} else if (e.getSource() == this.loginWindow.getCancelButton()) {
 			this.loginWindow.setVisible(false);
 			this.editWindow.setVisible(true);
-		} else if (e.getSource() == this.loginWindow.getCancelButton()) {
-			this.loginWindow.setVisible(false);
-			this.mainWindow.setVisible(true);
 		} else if (e.getSource() == this.editWindow.getScrapeButton()) {
 			this.webController.setTargetPage(this.editWindow.getUrlText().getText());
 			this.webController.goToPage();
 			this.editWindow.setVisible(false);
 			this.loginWindow.setVisible(true);
 		} else if (e.getSource() == editWindow.getExportExcelButton()) {
+			this.webController.getFrame("right");
 			this.webController.exportToExcel();
-		} else if (e.getSource() == this.editWindow.getAddInformationButton()) {
+		} else if (e.getSource() == this.editWindow.getLogoutButton()) {
 			
 		}
 		
@@ -79,7 +77,8 @@ public class ViewController implements ActionListener {
 	
 	public void initButtonEdit() {
 		this.editWindow.getScrapeButton().addActionListener(this);
-		this.editWindow.getAddInformationButton().addActionListener(this);
+		//this.editWindow.getAddInformationButton().addActionListener(this);
 		this.editWindow.getExportExcelButton().addActionListener(this);
+		this.editWindow.getLogoutButton().addActionListener(this);
 	}
 }

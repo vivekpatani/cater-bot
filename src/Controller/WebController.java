@@ -82,8 +82,9 @@ public class WebController {
 	 * 
 	 * @return frame's source
 	 */
-	public String getFrame() {
-		WebElement item = this.firefoxDriver.findElement(By.name("right"));
+	public String getFrame(String frame) {
+		this.firefoxDriver.switchTo().defaultContent();
+		WebElement item = this.firefoxDriver.findElement(By.name(frame));
 		this.firefoxDriver.switchTo().frame(item);
 		return this.firefoxDriver.getPageSource();
 	}
@@ -264,6 +265,7 @@ public class WebController {
 		} catch (IOException e) {
 			LOGGER.error(Constants.ERROR_MESSAGE, e);
 		}
+		this.firefoxDriver.switchTo();
 	}
 
 	// MAIN (testing purposes)
@@ -272,9 +274,10 @@ public class WebController {
 
 		wc.login("jrivero", "3513usa");
 
-		wc.getFrame();
+		wc.getFrame("right");
 		//List<EventInformation> eventList = wc.getEventListBy("eventsList");
 		wc.exportToExcel();
+		wc.getFrame("head");
 		Thread.sleep(5000);
 		wc.quit();
 	}
