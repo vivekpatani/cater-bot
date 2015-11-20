@@ -132,12 +132,12 @@ public class EditingWindow extends AbstractPanel {
 		this.exportExcelButton = new JButton();
 		this.exportExcelButton.setText(Constants.EXPORT);
 		this.exportExcelButton.setEnabled(false);
-		this.scrapePanel.add(this.exportExcelButton, super.setGridLocation(1, 1));
+		this.scrapePanel.add(this.exportExcelButton, super.setGridLocation(2, 1));
 		
 		this.logoutButton = new JButton();
 		this.logoutButton.setText(Constants.LOGOUT);
 		this.logoutButton.setEnabled(false);
-		this.scrapePanel.add(this.logoutButton, super.setGridLocation(1, 2));
+		this.scrapePanel.add(this.logoutButton, super.setGridLocation(2, 2));
 		
 		this.addInformationButton = new JButton();
 		this.addInformationButton.setText(Constants.PERSONAL_INFORMATION);

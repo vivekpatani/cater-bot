@@ -83,7 +83,6 @@ public class WebController {
 	 * @return frame's source
 	 */
 	public String getFrame(String frame) {
-		this.firefoxDriver.switchTo().defaultContent();
 		WebElement item = this.firefoxDriver.findElement(By.name(frame));
 		this.firefoxDriver.switchTo().frame(item);
 		return this.firefoxDriver.getPageSource();
@@ -178,7 +177,8 @@ public class WebController {
 	}
 	
 	public void logout() {
-		this.firefoxDriver.findElementByXPath("//a"); 
+		WebElement logout = this.firefoxDriver.findElementByXPath("//*[@title='Logout']");
+		logout.click();
 	}
 
 	/**
@@ -265,20 +265,22 @@ public class WebController {
 		} catch (IOException e) {
 			LOGGER.error(Constants.ERROR_MESSAGE, e);
 		}
-		this.firefoxDriver.switchTo();
+		//after data extraction return to the main frameset
+		this.firefoxDriver.switchTo().parentFrame();
 	}
 
 	// MAIN (testing purposes)
 	public static void main(String[] args) throws Exception {
 		WebController wc = new WebController("http://designcuisine.com/staff");
 
-		wc.login("jrivero", "3513usa");
+		wc.login("", "");
 
 		wc.getFrame("right");
 		//List<EventInformation> eventList = wc.getEventListBy("eventsList");
 		wc.exportToExcel();
-		wc.getFrame("head");
+		wc.getFrame("header");
 		Thread.sleep(5000);
+		wc.logout();
 		wc.quit();
 	}
 

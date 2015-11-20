@@ -61,7 +61,9 @@ public class ViewController implements ActionListener {
 			this.webController.getFrame("right");
 			this.webController.exportToExcel();
 		} else if (e.getSource() == this.editWindow.getLogoutButton()) {
-			
+			this.webController.getFrame("header");
+			this.webController.logout();
+			this.webController.quit();
 		}
 		
 	}
