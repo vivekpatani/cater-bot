@@ -31,6 +31,8 @@ public class EditingWindow extends AbstractPanel {
 	private JLabel urlLabel;
 	private JTextField urlText;
 	private JButton scrapeButton;
+	private JButton exportExcelButton;
+	private JButton logoutButton;
 
 	// personal information panel JComponents
 	private JPanel personalPanel;
@@ -127,6 +129,16 @@ public class EditingWindow extends AbstractPanel {
 		this.scrapeButton.setText(Constants.SUBMIT_URL_BUTTON);
 		this.scrapePanel.add(this.scrapeButton, super.setGridLocation(2, 0));
 		
+		this.exportExcelButton = new JButton();
+		this.exportExcelButton.setText(Constants.EXPORT);
+		this.exportExcelButton.setEnabled(false);
+		this.scrapePanel.add(this.exportExcelButton, super.setGridLocation(1, 1));
+		
+		this.logoutButton = new JButton();
+		this.logoutButton.setText(Constants.LOGOUT);
+		this.logoutButton.setEnabled(false);
+		this.scrapePanel.add(this.logoutButton, super.setGridLocation(1, 2));
+		
 		this.addInformationButton = new JButton();
 		this.addInformationButton.setText(Constants.PERSONAL_INFORMATION);
 		this.personalPanel.add(this.addInformationButton, super.setGridLocation(1, 4));
@@ -186,6 +198,22 @@ public class EditingWindow extends AbstractPanel {
 
 	public void setAddInformationButton(JButton addInformationButton) {
 		this.addInformationButton = addInformationButton;
+	}
+	
+	public JButton getExportExcelButton() {
+		return exportExcelButton;
+	}
+
+	public void setExportExcelButton(JButton exportExcelButton) {
+		this.exportExcelButton = exportExcelButton;
+	}
+
+	public JButton getLogoutButton() {
+		return logoutButton;
+	}
+
+	public void setLogoutButton(JButton logoutButton) {
+		this.logoutButton = logoutButton;
 	}
 
 }

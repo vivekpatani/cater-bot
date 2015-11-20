@@ -175,6 +175,10 @@ public class WebController {
 		loginButton.click();
 		this.followingPage = this.firefoxDriver.getCurrentUrl();
 	}
+	
+	public void logout() {
+		this.firefoxDriver.findElementByXPath("//a"); 
+	}
 
 	/**
 	 * close() closes current window
@@ -228,7 +232,8 @@ public class WebController {
 	 * @param eventList
 	 */
 	@SuppressWarnings("resource")
-	private void exportToExcel(List<EventInformation> eventList) {
+	public void exportToExcel() {
+		List<EventInformation> eventList = getEventListBy("eventsList");
 		HSSFWorkbook workbook = new HSSFWorkbook();
 		HSSFSheet sheet = workbook.createSheet("Caterer's Info");
 		FileOutputStream out;
@@ -265,11 +270,11 @@ public class WebController {
 	public static void main(String[] args) throws Exception {
 		WebController wc = new WebController("http://designcuisine.com/staff");
 
-		wc.login("", "");
+		wc.login("jrivero", "3513usa");
 
 		wc.getFrame();
-		List<EventInformation> eventList = wc.getEventListBy("eventsList");
-		wc.exportToExcel(eventList);
+		//List<EventInformation> eventList = wc.getEventListBy("eventsList");
+		wc.exportToExcel();
 		Thread.sleep(5000);
 		wc.quit();
 	}

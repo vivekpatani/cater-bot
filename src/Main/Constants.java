@@ -25,6 +25,8 @@ public class Constants {
 	public static final String ADDRESS = "Full Address";
 	public static final String EMAIL = "email";
 	public static final String BILLING_PERIOD = "Billing Period";
+	public static final String EXPORT = "Export";
+	public static final String LOGOUT = "Logout";
 	
 	
 	public static final int WINDOW_WIDTH = 700;
