@@ -53,7 +53,6 @@ public class WebController {
 	public WebController() {
 		this.setCapabilities();
 		this.firefoxDriver = new FirefoxDriver(this.capabilities);
-		this.firefoxDriver.getCapabilities().isJavascriptEnabled();
 	}
 
 	/**

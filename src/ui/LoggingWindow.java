@@ -82,4 +82,24 @@ public class LoggingWindow extends AbstractPanel {
 	public JButton getCancelButton() {
 		return this.cancelButton;
 	}
+
+
+	public JTextField getUserText() {
+		return userText;
+	}
+
+
+	public void setUserText(JTextField userText) {
+		this.userText = userText;
+	}
+
+
+	public JPasswordField getPassText() {
+		return passText;
+	}
+
+
+	public void setPassText(JPasswordField passText) {
+		this.passText = passText;
+	}
 }
