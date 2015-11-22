@@ -5,7 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -176,6 +178,49 @@ public class WebController {
 		this.followingPage = this.firefoxDriver.getCurrentUrl();
 	}
 	
+	
+	/**
+	 * getCallInfo
+	 * finds the call info item in the DOM, this item is important
+	 * because it contains the processed event information.
+	 * It clicks and displays the information
+	 */
+	public void getCallInfo() {
+		List<WebElement> allInfo = this.firefoxDriver.findElementsByXPath("//*[@title='Call Info']");
+		
+		for(WebElement we : allInfo) {
+			we.click();
+			Set<String> windowId = this.firefoxDriver.getWindowHandles();
+	        Iterator<String> itererator = windowId.iterator();
+	        
+	        String mainWinID = itererator.next();
+	        String  popUpID = itererator.next();
+	        
+	        this.firefoxDriver.switchTo().window(popUpID);
+	        System.out.println(this.firefoxDriver.getPageSource());
+	        try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				LOGGER.error(Constants.ERROR_MESSAGE, e);
+			}
+	        this.firefoxDriver.close();
+	
+	        this.firefoxDriver.switchTo().window(mainWinID);
+	        this.getFrame("right");
+	        System.out.println(this.firefoxDriver.getTitle());
+	        try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				LOGGER.error(Constants.ERROR_MESSAGE, e);
+			}
+		}
+	}
+	
+	
+	/**
+	 * logout()
+	 * finds the logout web element and proceeds to click
+	 */
 	public void logout() {
 		WebElement logout = this.firefoxDriver.findElementByXPath("//*[@title='Logout']");
 		logout.click();
@@ -280,7 +325,6 @@ public class WebController {
 		wc.exportToExcel();
 		wc.getFrame("header");
 		Thread.sleep(5000);
-		wc.logout();
 		wc.quit();
 	}
 
