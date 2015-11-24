@@ -133,14 +133,22 @@ public class WebController {
 						ei.setDate(tdElement.getText());
 						break;
 					case 5:
-						ei.setCallIn(tdElement.getText());
+						this.getCallInfo(tdElement, ei);
+						
+						if(ei.getCallIn().isEmpty()) {
+							ei.setCallIn(tdElement.getText());
+						}
 						break;
 					case 6:
-						ei.setCallOut(tdElement.getText());
+						if(ei.getCallOut().isEmpty()) {
+							ei.setCallOut(tdElement.getText());
+						}
 						break;
 					case 7:
-						ei.setHoursWorked(Double.parseDouble(tdElement
-								.getText()));
+						if(ei.getHoursWorked() == 0) {
+							ei.setHoursWorked(Double.parseDouble(tdElement
+									.getText()));
+						}
 						break;
 					case 8:
 						ei.setEventLocation(tdElement.getText());
@@ -185,35 +193,39 @@ public class WebController {
 	 * because it contains the processed event information.
 	 * It clicks and displays the information
 	 */
-	public void getCallInfo() {
-		List<WebElement> allInfo = this.firefoxDriver.findElementsByXPath("//*[@title='Call Info']");
-		
-		for(WebElement we : allInfo) {
-			we.click();
-			Set<String> windowId = this.firefoxDriver.getWindowHandles();
-	        Iterator<String> itererator = windowId.iterator();
-	        
-	        String mainWinID = itererator.next();
-	        String  popUpID = itererator.next();
-	        
-	        this.firefoxDriver.switchTo().window(popUpID);
-	        System.out.println(this.firefoxDriver.getPageSource());
-	        try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				LOGGER.error(Constants.ERROR_MESSAGE, e);
+	public void getCallInfo(WebElement tdElement, EventInformation ei) {
+		try {
+			String actualInfo = "";
+			WebElement temp = tdElement.findElement(By.tagName("a"));
+			double rate = 0;
+			actualInfo = temp.getAttribute("href");
+			String[] array = actualInfo.split(",");
+			for(int k = 0; k < array.length; k++) {
+				switch(k) {
+				case 0:
+					ei.setCallIn(array[k].split("\'")[1].replace("%20", " "));
+					break;
+				case 1:
+					ei.setCallOut(array[k].split("\'")[1].replace("%20", " "));
+					break;
+				case 2:
+					rate = Double.parseDouble(array[k].split("\'")[1]);
+					break;
+				case 3:
+					ei.setHoursWorked(Double.parseDouble(array[k].split("\'")[1]));
+					ei.setExtraPay(ei.getHoursWorked() * rate);
+					break;
+				case 4:
+					break;
+				case 5:
+					ei.setExtraPay(ei.getExtraPay() +  Double.parseDouble(array[k].split("\'")[1]));
+					break;
+				case 6:
+					ei.setExtraPay(ei.getExtraPay() +  Double.parseDouble(array[k].split("\'")[1]));
+					break;
+				}
 			}
-	        this.firefoxDriver.close();
-	
-	        this.firefoxDriver.switchTo().window(mainWinID);
-	        this.getFrame("right");
-	        System.out.println(this.firefoxDriver.getTitle());
-	        try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				LOGGER.error(Constants.ERROR_MESSAGE, e);
-			}
-		}
+		} catch (Exception e) {}
 	}
 	
 	
@@ -297,6 +309,7 @@ public class WebController {
 				nextrow.createCell(5).setCellValue(s.getHoursWorked());
 				nextrow.createCell(6).setCellValue(s.getEventLocation());
 				nextrow.createCell(7).setCellValue(s.getDate());
+				nextrow.createCell(8).setCellValue(s.getExtraPay());
 
 				rowNumber++;
 			}
@@ -321,6 +334,7 @@ public class WebController {
 		wc.login("", "");
 
 		wc.getFrame("right");
+		Thread.sleep(2000);
 		//List<EventInformation> eventList = wc.getEventListBy("eventsList");
 		wc.exportToExcel();
 		wc.getFrame("header");

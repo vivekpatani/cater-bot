@@ -10,7 +10,7 @@ public class EventInformation {
 	private String callIn;
 	private String callOut;
 	private double hoursWorked;
-	private double extraPay;
+	private double pay;
 
 	
 	public EventInformation(String eventID, String position, String customer,
@@ -24,6 +24,7 @@ public class EventInformation {
 		this.callIn = callin;
 		this.callOut = callout;
 		this.hoursWorked = hoursWorked;
+		this.pay = 0;
 		this.date = date;
 	}
 	
@@ -35,6 +36,7 @@ public class EventInformation {
 		this.callIn = "";
 		this.callOut = "";
 		this.hoursWorked = 0;
+		this.pay = 0;
 		this.date = "";
 	}
 
@@ -106,11 +108,11 @@ public class EventInformation {
 	}
 
 	public double getExtraPay() {
-		return extraPay;
+		return pay;
 	}
 
-	public void setExtraPay(float extraPay) {
-		this.extraPay = extraPay;
+	public void setExtraPay(double pay) {
+		this.pay = pay;
 	}
 	
 	public void print() {
