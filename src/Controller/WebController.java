@@ -5,10 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -89,6 +86,30 @@ public class WebController {
 		this.firefoxDriver.switchTo().frame(item);
 		return this.firefoxDriver.getPageSource();
 	}
+	
+	/**
+	 * getNextPage
+	 * 
+	 * clicks on next page to load the new html code
+	 */
+	public void getNextPage() {
+		try {
+			WebElement next = this.firefoxDriver.findElementByXPath("//*[@title='Next']");
+			next.click();
+		} catch (Exception e) {
+			LOGGER.warn(e);
+		}
+	}
+	
+	
+	public boolean nextPage() {
+		try{
+			this.firefoxDriver.findElementByXPath("//*[@title='Next']");
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
 	/**
 	 * getEventList() go over table and extract all the items in columns
@@ -96,71 +117,73 @@ public class WebController {
 	 * @param name
 	 * @return event information name
 	 */
-	public List<EventInformation> getEventListBy(String name) {
-		List<EventInformation> lst = new ArrayList<EventInformation>();
-
-		// get table table based on name
-		WebElement table = this.firefoxDriver.findElement(By.id(name));
-		int j = 0;
-		// get its rows
-		for (WebElement trElement : table.findElements(By.tagName("tr"))) {
-			if (j == 0 || j == 1 || j == 2) {
-				j++;
-				continue;
-			}
-			List<WebElement> rowElements = trElement.findElements(By
-					.tagName("td"));
-
-			if (rowElements.size() > 1) {
-
-				int i = 0;
-				EventInformation ei = new EventInformation();
-				// some data columns are useless or irrelevant
-				for (WebElement tdElement : rowElements) {
-					switch (i) {
-					case 0:
-						break;
-					case 1:
-						ei.setEventID(tdElement.getText());
-						break;
-					case 2:
-						ei.setPosition(tdElement.getText());
-						break;
-					case 3:
-						ei.setCustomerName(tdElement.getText());
-						break;
-					case 4:
-						ei.setDate(tdElement.getText());
-						break;
-					case 5:
-						this.getCallInfo(tdElement, ei);
-						
-						if(ei.getCallIn().isEmpty()) {
-							ei.setCallIn(tdElement.getText());
-						}
-						break;
-					case 6:
-						if(ei.getCallOut().isEmpty()) {
-							ei.setCallOut(tdElement.getText());
-						}
-						break;
-					case 7:
-						if(ei.getHoursWorked() == 0) {
-							ei.setHoursWorked(Double.parseDouble(tdElement
-									.getText()));
-						}
-						break;
-					case 8:
-						ei.setEventLocation(tdElement.getText());
-					default:
-						break;
-					}
-					i++;
+	public void getEventListBy(String name, List<EventInformation> lst) {
+		try {
+			// get table table based on name
+			WebElement table = this.firefoxDriver.findElement(By.id(name));
+			// get next paging item
+			int j = 0;
+			// get its rows
+			for (WebElement trElement : table.findElements(By.tagName("tr"))) {
+				if (j == 0 || j == 1 || j == 2) {
+					j++;
+					continue;
 				}
-				lst.add(ei);
+				List<WebElement> rowElements = trElement.findElements(By
+						.tagName("td"));
+	
+				if (rowElements.size() > 1) {
+	
+					int i = 0;
+					EventInformation ei = new EventInformation();
+					// some data columns are useless or irrelevant
+					for (WebElement tdElement : rowElements) {
+						switch (i) {
+						case 0:
+							break;
+						case 1:
+							ei.setEventID(tdElement.getText());
+							break;
+						case 2:
+							ei.setPosition(tdElement.getText());
+							break;
+						case 3:
+							ei.setCustomerName(tdElement.getText());
+							break;
+						case 4:
+							ei.setDate(tdElement.getText());
+							break;
+						case 5:
+							this.getCallInfo(tdElement, ei);
+							
+							if(ei.getCallIn().isEmpty()) {
+								ei.setCallIn(tdElement.getText());
+							}
+							break;
+						case 6:
+							if(ei.getCallOut().isEmpty()) {
+								ei.setCallOut(tdElement.getText());
+							}
+							break;
+						case 7:
+							if(ei.getHoursWorked() == 0) {
+								ei.setHoursWorked(Double.parseDouble(tdElement
+										.getText()));
+							}
+							break;
+						case 8:
+							ei.setEventLocation(tdElement.getText());
+						default:
+							break;
+						}
+						i++;
+					}
+					lst.add(ei);
+				}
 			}
+		} catch (Exception e) {
+			LOGGER.warn(e);
 		}
-		return lst;
 	}
 
 	/**
@@ -184,6 +207,16 @@ public class WebController {
 		// perform web click on the button
 		loginButton.click();
 		this.followingPage = this.firefoxDriver.getCurrentUrl();
+	}
+	
+	
+	/**
+	 * logout()
+	 * finds the logout web element and proceeds to click
+	 */
+	public void logout() {
+		WebElement logout = this.firefoxDriver.findElementByXPath("//*[@title='Logout']");
+		logout.click();
 	}
 	
 	
@@ -228,15 +261,6 @@ public class WebController {
 		} catch (Exception e) {}
 	}
 	
-	
-	/**
-	 * logout()
-	 * finds the logout web element and proceeds to click
-	 */
-	public void logout() {
-		WebElement logout = this.firefoxDriver.findElementByXPath("//*[@title='Logout']");
-		logout.click();
-	}
 
 	/**
 	 * close() closes current window
@@ -291,7 +315,15 @@ public class WebController {
 	 */
 	@SuppressWarnings("resource")
 	public void exportToExcel() {
-		List<EventInformation> eventList = getEventListBy("eventsList");
+		List<EventInformation>  eventList = new ArrayList<EventInformation>();
+		
+		while(this.nextPage()) {
+			this.getEventListBy("eventsList", eventList);
+			this.getNextPage();
+		}
+		
+		this.getEventListBy("eventsList", eventList);
+		
 		HSSFWorkbook workbook = new HSSFWorkbook();
 		HSSFSheet sheet = workbook.createSheet("Caterer's Info");
 		FileOutputStream out;
@@ -301,15 +333,14 @@ public class WebController {
 			for (EventInformation s : eventList) {
 				s.print();
 				HSSFRow nextrow = sheet.createRow(rowNumber);
-				nextrow.createCell(0).setCellValue(s.getEventID());
-				nextrow.createCell(1).setCellValue(s.getPosition());
-				nextrow.createCell(2).setCellValue(s.getCustomerName());
-				nextrow.createCell(3).setCellValue(s.getCallIn());
-				nextrow.createCell(4).setCellValue(s.getCallOut());
-				nextrow.createCell(5).setCellValue(s.getHoursWorked());
-				nextrow.createCell(6).setCellValue(s.getEventLocation());
-				nextrow.createCell(7).setCellValue(s.getDate());
-				nextrow.createCell(8).setCellValue(s.getExtraPay());
+				
+				nextrow.createCell(1).setCellValue(s.getDate());
+				nextrow.createCell(2).setCellValue(s.getEventID());
+				nextrow.createCell(3).setCellValue(s.getEventLocation());
+				nextrow.createCell(4).setCellValue(s.getCallIn());
+				nextrow.createCell(5).setCellValue(s.getCallOut());
+				nextrow.createCell(6).setCellValue(s.getHoursWorked());
+				nextrow.createCell(7).setCellValue(s.getExtraPay());
 
 				rowNumber++;
 			}
@@ -330,16 +361,22 @@ public class WebController {
 	// MAIN (testing purposes)
 	public static void main(String[] args) throws Exception {
 		WebController wc = new WebController("http://designcuisine.com/staff");
-
-		wc.login("", "");
-
-		wc.getFrame("right");
-		Thread.sleep(2000);
-		//List<EventInformation> eventList = wc.getEventListBy("eventsList");
-		wc.exportToExcel();
-		wc.getFrame("header");
-		Thread.sleep(5000);
-		wc.quit();
+		try {
+			wc.login("jroque", "jupul6p6");
+	
+			wc.getFrame("right");
+			Thread.sleep(2000);
+			//List<EventInformation> eventList = wc.getEventListBy("eventsList");
+			wc.exportToExcel();
+			wc.getFrame("right");
+			//wc.getFrame("header");
+			//wc.logout();
+			Thread.sleep(5000);
+		} catch (Exception e) {
+			LOGGER.error(Constants.ERROR_MESSAGE, e);
+		} finally {
+			wc.quit();
+		}
 	}
 
 }
