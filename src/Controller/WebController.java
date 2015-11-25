@@ -136,6 +136,7 @@ public class WebController {
 	
 					int i = 0;
 					EventInformation ei = new EventInformation();
+					WebElement confirm = null;
 					// some data columns are useless or irrelevant
 					for (WebElement tdElement : rowElements) {
 						switch (i) {
@@ -173,12 +174,17 @@ public class WebController {
 							break;
 						case 8:
 							ei.setEventLocation(tdElement.getText());
+							break;
+						case 10:
+							confirm = tdElement.findElement(By.xpath("//*[@class='dijitReset dijitInputInner']"));
+							break;
 						default:
 							break;
 						}
 						i++;
 					}
-					lst.add(ei);
+					if(confirm.getAttribute("value").equals("Confirmed"))
+						lst.add(ei);
 				}
 			}
 		} catch (Exception e) {
