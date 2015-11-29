@@ -1,6 +1,8 @@
 package Controller;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -9,6 +11,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
+import Main.Constants;
 import Model.EmployeeInformation;
 import Model.EventInformation;
 
@@ -23,9 +26,19 @@ public class ExcelController {
 
 	public final static Logger LOGGER = LogManager.getLogger(ExcelController.class.getName());
 	private HSSFWorkbook workbook;
+	private HSSFSheet sheet;
+	private FileOutputStream out;
 	
 	public ExcelController() {
 		this.workbook = new HSSFWorkbook();
+		this.sheet = createSheet();
+		
+		try {
+			setOut(new FileOutputStream(new File(System.getProperty("user.home") 
+					+ Constants.FILE)));
+		}catch (Exception e) {
+			LOGGER.error(Constants.ERROR_MESSAGE, e);
+		}
 	}
 	
 	public HSSFSheet createSheet() {
@@ -44,21 +57,30 @@ public class ExcelController {
 	 * @param sheet
 	 * @param emp
 	 */
-	public void writePersonalInfoToSheet(HSSFSheet sheet, EmployeeInformation emp) {
+	public void writePersonalInfoToSheet(EmployeeInformation emp) {
 		
 		int rowNumber = 2;
-		List<HSSFRow> rows = new ArrayList<HSSFRow>();
-		for(int i = 0; i < 4; i++) {
-			rows.add(sheet.createRow(rowNumber+i));
+		HSSFRow row = sheet.createRow(rowNumber);
+		row.createCell(1).setCellValue("Name");
+		row.createCell(2).setCellValue(emp.getName());
+		rowNumber++;
+		row = sheet.createRow(rowNumber);
+		row.createCell(1).setCellValue("Address");
+		row.createCell(2).setCellValue(emp.getAddress());
+		rowNumber++;
+		row = sheet.createRow(rowNumber);
+		row.createCell(1).setCellValue("Email");
+		row.createCell(2).setCellValue(emp.getEmail());
+		rowNumber++;
+		row = sheet.createRow(rowNumber);
+		row.createCell(1).setCellValue("Billing Cycle");
+		row.createCell(2).setCellValue(emp.getBillingStart());
+		
+		try {
+			this.workbook.write(this.out);
+		} catch (Exception e) {
+			LOGGER.error(Constants.ERROR_MESSAGE, e);
 		}
-		rows.get(0).createCell(1).setCellValue("Name");
-		rows.get(0).createCell(2).setCellValue(emp.getName());
-		rows.get(1).createCell(1).setCellValue("Address");
-		rows.get(1).createCell(2).setCellValue(emp.getAddress());
-		rows.get(2).createCell(1).setCellValue("Email");
-		rows.get(2).createCell(2).setCellValue(emp.getEmail());
-		rows.get(3).createCell(1).setCellValue("Billing Cycle");
-		rows.get(3).createCell(2).setCellValue(emp.getBillingStart());
 	}
 	
 	
@@ -68,7 +90,7 @@ public class ExcelController {
 	 * @param sheet
 	 * @param list
 	 */
-	public void writeEventToSheet(HSSFSheet sheet, List<EventInformation> list) {
+	public void writeEventToSheet(List<EventInformation> list) {
 		
 		if(!list.isEmpty()) {
 			int rowNumber = 6;
@@ -88,5 +110,25 @@ public class ExcelController {
 				
 			}
 		}
+		
+		try {
+			this.workbook.write(this.out);
+		} catch (Exception e) {
+			LOGGER.error(Constants.ERROR_MESSAGE, e);
+		}
+	}
+	
+	
+	public void closeFile() throws IOException {
+		this.out.close();
+	}
+	
+	
+	public FileOutputStream getOut() {
+		return out;
+	}
+
+	public void setOut(FileOutputStream out) {
+		this.out = out;
 	}
 }

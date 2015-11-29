@@ -19,6 +19,8 @@ public class ViewController implements ActionListener {
 	private MainWindow mainWindow;
 	private LoggingWindow loginWindow;
 	private EditingWindow editWindow;
+	private ExcelController excelController;
+	private PersonalInfoController personalController;
 	private WebController webController;
 	
 	public ViewController(MainWindow mainWindow, LoggingWindow loginWindow, EditingWindow editWindow) {
@@ -28,7 +30,9 @@ public class ViewController implements ActionListener {
 		initButtonLogin();
 		this.editWindow = editWindow;
 		initButtonEdit();
-		this.webController = new WebController();
+		this.excelController = new ExcelController();
+		this.personalController = new PersonalInfoController(this.editWindow, this.excelController);
+		this.webController = new WebController(this.excelController);
 	}
 
 	public void actionPerformed(ActionEvent e) {

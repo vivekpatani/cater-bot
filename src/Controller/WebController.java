@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -33,6 +34,8 @@ public class WebController {
 
 	public final static Logger LOGGER = LogManager
 			.getLogger(WebController.class.getName());
+	
+	private ExcelController excelController;
 
 	private FirefoxDriver firefoxDriver;
 
@@ -42,18 +45,27 @@ public class WebController {
 
 	private String followingPage;
 
-	public WebController(String url) {
+	public WebController(String url, ExcelController excelController) {
+		this.excelController = excelController;
 		this.setCapabilities();
 		this.firefoxDriver = new FirefoxDriver(this.capabilities);
 		this.targetPage = url;
 		this.goToPage();
 	}
 
-	public WebController() {
+	public WebController(ExcelController excelController) {
+		this.excelController = excelController;
 		this.setCapabilities();
 		this.firefoxDriver = new FirefoxDriver(this.capabilities);
 	}
 
+	public WebController(String url) {
+		this.setCapabilities();
+		this.firefoxDriver = new FirefoxDriver(this.capabilities);
+		this.targetPage = url;
+		this.goToPage();
+	}
+	
 	/**
 	 * setCapabilities() set desired capabilities of our driver to be platform
 	 * independent and enable javascript
@@ -330,6 +342,8 @@ public class WebController {
 		
 		this.getEventListBy("eventsList", eventList);
 		
+		this.excelController.writeEventToSheet(eventList);
+		
 		HSSFWorkbook workbook = new HSSFWorkbook();
 		HSSFSheet sheet = workbook.createSheet("Caterer's Info");
 		FileOutputStream out;
@@ -366,7 +380,8 @@ public class WebController {
 
 	// MAIN (testing purposes)
 	public static void main(String[] args) throws Exception {
-		WebController wc = new WebController("http://designcuisine.com/staff");
+		ExcelController ec = new ExcelController();
+		WebController wc = new WebController("http://designcuisine.com/staff", ec);
 		try {
 			wc.login("jroque", "jupul6p6");
 	

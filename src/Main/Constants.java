@@ -27,7 +27,8 @@ public class Constants {
 	public static final String BILLING_PERIOD = "Billing Period";
 	public static final String EXPORT = "Export";
 	public static final String LOGOUT = "Logout";
-	
+	public static final String FILE = "/cateringBill.xls";
+
 	
 	public static final int WINDOW_WIDTH = 700;
 	public static final int WINDOW_HEIGHT = 700;

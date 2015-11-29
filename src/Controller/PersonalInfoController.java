@@ -7,16 +7,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import ui.EditingWindow;
+import Model.EmployeeInformation;
 
 public class PersonalInfoController implements ActionListener{
 	
 	
 	public final static Logger LOGGER = LogManager.getLogger(PersonalInfoController.class.getName());
 	private EditingWindow editWindow;
+	private ExcelController excelController;
 	
-	public PersonalInfoController() {
-		this.editWindow = new EditingWindow();
+	public PersonalInfoController(EditingWindow editWindow, ExcelController excelController) {
+		this.editWindow = editWindow;
 		initEditButton();
+		this.excelController = excelController;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -27,7 +30,9 @@ public class PersonalInfoController implements ActionListener{
 			String email = this.editWindow.getEmailText().getText();
 			String billing = this.editWindow.getBillingPeriodText().getText();
 			
+			EmployeeInformation emp = new EmployeeInformation(name, address, email, billing);
 			//write to excel
+			this.excelController.writePersonalInfoToSheet(emp);
 		}
 	}
 	
