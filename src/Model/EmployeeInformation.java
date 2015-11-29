@@ -22,6 +22,14 @@ public class EmployeeInformation {
 	private String billingStart;
 	private String billingEnd;
 	private List<EventInformation> listOfEvents;
+	
+	public EmployeeInformation(String name, String address, String email,
+			String billingStart) {
+		this.name = name;
+		this.address = address;
+		this.email = email;
+		this.billingStart = billingStart;
+	}
 
 	public EmployeeInformation(String name, String address, String email,
 			String billingStart, String billingEnd) {
