@@ -76,11 +76,6 @@ public class ExcelController {
 		row.createCell(1).setCellValue("Billing Cycle");
 		row.createCell(2).setCellValue(emp.getBillingStart());
 		
-		try {
-			this.workbook.write(this.out);
-		} catch (Exception e) {
-			LOGGER.error(Constants.ERROR_MESSAGE, e);
-		}
 	}
 	
 	
@@ -91,13 +86,21 @@ public class ExcelController {
 	 * @param list
 	 */
 	public void writeEventToSheet(List<EventInformation> list) {
+		int rowNumber = 8;
+		HSSFRow nameRow = sheet.createRow(rowNumber);
+		nameRow.createCell(1).setCellValue("Date");
+		nameRow.createCell(2).setCellValue("Event ID");
+		nameRow.createCell(3).setCellValue("Location");
+		nameRow.createCell(4).setCellValue("Call in");
+		nameRow.createCell(5).setCellValue("Call out");
+		nameRow.createCell(6).setCellValue("Hours");
+		nameRow.createCell(7).setCellValue("Pay");
 		
 		if(!list.isEmpty()) {
-			int rowNumber = 6;
-			
+			rowNumber = 9;
 			for(EventInformation item : list) {
 				HSSFRow row = sheet.createRow(rowNumber);
-				
+
 				row.createCell(1).setCellValue(item.getDate());
 				row.createCell(2).setCellValue(item.getEventID());
 				row.createCell(3).setCellValue(item.getEventLocation());
@@ -111,6 +114,9 @@ public class ExcelController {
 			}
 		}
 		
+	}
+	
+	public void write() {
 		try {
 			this.workbook.write(this.out);
 		} catch (Exception e) {

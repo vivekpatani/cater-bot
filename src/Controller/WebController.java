@@ -1,17 +1,11 @@
 package Controller;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
@@ -233,8 +227,21 @@ public class WebController {
 	 * finds the logout web element and proceeds to click
 	 */
 	public void logout() {
+		this.excelController.write();
+		
+		try {
+			this.excelController.closeFile();
+		} catch (IOException e) {
+			LOGGER.error(Constants.ERROR_MESSAGE, e);
+		}
+		
 		WebElement logout = this.firefoxDriver.findElementByXPath("//*[@title='Logout']");
 		logout.click();
+		try {
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			LOGGER.error(Constants.ERROR_MESSAGE, e);
+		}
 	}
 	
 	
@@ -331,7 +338,6 @@ public class WebController {
 	 * writes the items saved in models to excel
 	 * @param eventList
 	 */
-	@SuppressWarnings("resource")
 	public void exportToExcel() {
 		List<EventInformation>  eventList = new ArrayList<EventInformation>();
 		
@@ -344,37 +350,6 @@ public class WebController {
 		
 		this.excelController.writeEventToSheet(eventList);
 		
-		HSSFWorkbook workbook = new HSSFWorkbook();
-		HSSFSheet sheet = workbook.createSheet("Caterer's Info");
-		FileOutputStream out;
-		
-		if (!eventList.isEmpty()) {
-			int rowNumber = 2;
-			for (EventInformation s : eventList) {
-				s.print();
-				HSSFRow nextrow = sheet.createRow(rowNumber);
-				
-				nextrow.createCell(1).setCellValue(s.getDate());
-				nextrow.createCell(2).setCellValue(s.getEventID());
-				nextrow.createCell(3).setCellValue(s.getEventLocation());
-				nextrow.createCell(4).setCellValue(s.getCallIn());
-				nextrow.createCell(5).setCellValue(s.getCallOut());
-				nextrow.createCell(6).setCellValue(s.getHoursWorked());
-				nextrow.createCell(7).setCellValue(s.getExtraPay());
-
-				rowNumber++;
-			}
-		}
-		try {
-			out = new FileOutputStream(new File(System.getProperty("user.home")+"/newDocument.xls"));
-			workbook.write(out);
-			out.close();
-		} catch (FileNotFoundException e) {
-			LOGGER.error(Constants.ERROR_MESSAGE, e);		
-		} catch (IOException e) {
-			LOGGER.error(Constants.ERROR_MESSAGE, e);
-		}
-		//after data extraction return to the main frameset
 		this.firefoxDriver.switchTo().parentFrame();
 	}
 
@@ -383,7 +358,7 @@ public class WebController {
 		ExcelController ec = new ExcelController();
 		WebController wc = new WebController("http://designcuisine.com/staff", ec);
 		try {
-			wc.login("jroque", "jupul6p6");
+			wc.login("", "");
 	
 			wc.getFrame("right");
 			Thread.sleep(2000);
