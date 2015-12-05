@@ -1,5 +1,9 @@
 package Controller;
-
+/**
+ * Andres, Sameksha, Shruti, Vivek
+ * ViewController.java
+ * {Andres - Caterers 0.9}
+ */
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -7,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import Main.Constants;
+import ui.DisplayWindow;
 import ui.EditingWindow;
 import ui.LoggingWindow;
 import ui.MainWindow;
@@ -22,8 +27,9 @@ public class ViewController implements ActionListener {
 	private ExcelController excelController;
 	private PersonalInfoController personalController;
 	private WebController webController;
+	private DisplayWindow displayWindow;
 	
-	public ViewController(MainWindow mainWindow, LoggingWindow loginWindow, EditingWindow editWindow) {
+	public ViewController(MainWindow mainWindow, LoggingWindow loginWindow, EditingWindow editWindow, DisplayWindow displayWindow) {
 		this.mainWindow = mainWindow;
 		initButtonMain();
 		this.loginWindow = loginWindow;
@@ -33,6 +39,8 @@ public class ViewController implements ActionListener {
 		this.excelController = new ExcelController();
 		this.personalController = new PersonalInfoController(this.editWindow, this.excelController);
 		this.webController = new WebController(this.excelController);
+		this.displayWindow = displayWindow;
+		initDisplay();
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -50,9 +58,11 @@ public class ViewController implements ActionListener {
 			} catch (Exception e1) {
 				LOGGER.error(Constants.ERROR_MESSAGE, e1);
 			}
-			
+			this.displayWindow.getExportExcelButton().setEnabled(true);
+			this.displayWindow.getVisualisationButton().setEnabled(true);
+			this.displayWindow.getLogoutButton().setEnabled(true);
 			this.loginWindow.setVisible(false);
-			this.editWindow.setVisible(true);
+			this.displayWindow.setVisible(true);
 		} else if (e.getSource() == this.loginWindow.getCancelButton()) {
 			this.loginWindow.setVisible(false);
 			this.editWindow.setVisible(true);
@@ -61,10 +71,10 @@ public class ViewController implements ActionListener {
 			this.webController.goToPage();
 			this.editWindow.setVisible(false);
 			this.loginWindow.setVisible(true);
-		} else if (e.getSource() == editWindow.getExportExcelButton()) {
+		} else if (e.getSource() == displayWindow.getExportExcelButton()) {
 			this.webController.getFrame("right");
 			this.webController.exportToExcel();
-		} else if (e.getSource() == this.editWindow.getLogoutButton()) {
+		} else if (e.getSource() == displayWindow.getLogoutButton()) {
 			this.webController.getFrame("header");
 			this.webController.logout();
 			this.webController.quit();
@@ -86,5 +96,11 @@ public class ViewController implements ActionListener {
 		//this.editWindow.getAddInformationButton().addActionListener(this);
 		this.editWindow.getExportExcelButton().addActionListener(this);
 		this.editWindow.getLogoutButton().addActionListener(this);
+	}
+	
+	public void initDisplay() {
+		this.displayWindow.getExportExcelButton().addActionListener(this);
+		this.displayWindow.getLogoutButton().addActionListener(this);
+		this.displayWindow.getVisualisationButton().addActionListener(this);
 	}
 }

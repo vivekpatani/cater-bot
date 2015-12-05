@@ -1,7 +1,7 @@
 /**
- * Vivek Patani {FlipSwitch}
- * DisplayData.java
- * {Algorithms 0.: Living in Beta}
+ * Andres, Sameksha, Shruti, Vivek
+ * DisplayWindow.java
+ * {Andres - Caterers 0.9}
  */
 package ui;
 import java.awt.Dimension;
@@ -27,46 +27,60 @@ import Main.Constants;
  * Class used to Display Data and Export it to various formats.
  */ 
 public class DisplayWindow extends AbstractPanel{
-    /**
+	
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public final static Logger LOGGER = LogManager
-			.getLogger(EditingWindow.class.getName());
+
+	//Logger
+	public final static Logger LOGGER = LogManager.getLogger(EditingWindow.class.getName());
 	
-		private JFrame displayFrame = new JFrame();
-		
-		//Display Panel JComponents
-		private JPanel displayPanel;
-		private JLabel statLabel;
-		private JButton exportExcelButton;
-		private JButton logoutButton;
-
-		//Button Panel JComponents
-		private JPanel buttonPanel;
-		
-		//Labels
-		private JLabel nameLabel;
-		private JLabel addressLabel;
-		private JLabel billingPeriodLabel;
-		private JLabel emailLabel;
-		
-		// TextFields
-		private JTextField nameText;
-		private JTextField addressText;
-		private JTextField billingPeriodText;
-		private JTextField emailText;
-
-		private JButton addInformationButton;
-
-	/**
-	 * Basic Constructor
-	 */
+	//Personal Information Panel
+	private JPanel personalPanel;
+	
+	//Personal Information Labels
+	private JLabel nameLabel;
+	private JLabel addressLabel;
+	private JLabel billingPeriodLabel;
+	private JLabel emailLabel;
+	
+	//Utility Button Panel
+	private JPanel buttonPanel;
+	
+	//Utility Buttons
+	private JButton visualisationButton;
+	private JButton exportExcelButton;
+	private JButton logoutButton;
+	
+	//Display Data Panel
+	private JPanel displayPanel;
+	
+	//Display Table
+	private JTable dataTable;
+	
+	//Headers for Table;
+	private String columns[] = new String[] {
+            "Id", "Name", "Hourly Rate", "Part Time"
+        }; //Should be shifted to Constants soon.
+	
+	private Object[][] data = new Object[][] {
+        {1, "John", 40.0, "yes" },
+        {2, "Rambo", 70.0, "yes" },
+        {3, "Zorro", 60.0, "yes" },
+    };
+	
+    /**
+     * Basic Constructor
+     */
 	public DisplayWindow(){
 		super();
 		init();
 	}
 	
+	/**
+	 * Method used to initiate the Display Window with data
+	 */
 	private void init(){
 		super.setName(Constants.SOFTWARE_NAME);
 		this.setSize(Constants.WINDOW_WIDTH / 2, Constants.WINDOW_HEIGHT / 2);
@@ -79,98 +93,115 @@ public class DisplayWindow extends AbstractPanel{
 		} catch (Exception e) {
 			LOGGER.error(Constants.ERROR_MESSAGE, e);
 		}
-		displayData();
+
 		setUpPanel();
 		setUpLabel();
+		setUpTable();
 		setUpButton();
 	}
 	
 	public void setUpPanel() {
+		this.personalPanel = new JPanel();
+		this.personalPanel.setBorder(BorderFactory
+				.createTitledBorder(Constants.PERSONAL_INFORMATION));
+		this.personalPanel.setLayout(new GridBagLayout());
 		
-		//This is used to display the table
-		this.displayPanel = new JPanel();
-		this.displayPanel.setBorder(BorderFactory
-				.createTitledBorder(Constants.URL_SCRAPE));
-		//this.scrapePanel.setBackground(Color.darkGray);
-		this.displayPanel.setLayout(new GridBagLayout());
-		
-		//This is used to display various buttons on the top
 		this.buttonPanel = new JPanel();
 		this.buttonPanel.setBorder(BorderFactory
-				.createTitledBorder(Constants.DISPLAY_DATA));
-		//this.personalPanel.setBackground(Color.darkGray);
+				.createTitledBorder(Constants.DATA_MANIPULATION));
 		this.buttonPanel.setLayout(new GridBagLayout());
 		
-		super.getPanel().setLayout(new GridLayout(2, 1));
-		super.getPanel().add(this.displayPanel);
+		this.displayPanel = new JPanel();
+		this.displayPanel.setBorder(BorderFactory
+				.createTitledBorder(Constants.DISPLAY_DATA));
+		this.displayPanel.setLayout(new GridBagLayout());
+
+		super.getPanel().setLayout(new GridLayout(3, 1));
+		super.getPanel().add(this.personalPanel);
 		super.getPanel().add(this.buttonPanel);
+		super.getPanel().add(this.displayPanel);
 	}
 	
 	/**
 	 * To setup the buttons required in the window.
 	 */
-	public void displayData()
+	public void setUpTable()
     {
-        //headers for the table
-        String[] columns = new String[] {
-            "Id", "Name", "Hourly Rate", "Part Time"
-        };
-         
-        //actual data for the table in a 2d array
-        Object[][] data = new Object[][] {
-            {1, "John", 40.0, "yes" },
-            {2, "Rambo", 70.0, "yes" },
-            {3, "Zorro", 60.0, "yes" },
-        };
- 
         //create table with data
-        JTable table = new JTable(data, columns);
-         
+        dataTable = new JTable(data, columns);
         //add the table to the frame
-        this.add(new JScrollPane(table));
-         
-        this.setTitle("Table Example");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);       
-        this.pack();
-        this.setVisible(true);
+        displayPanel.add(new JScrollPane(dataTable), super.setGridLocation(3, 1));
     }
     
-    public static void main(String[] args)
-    {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new DisplayWindow();
-            }
-        });
-    }
     public void setUpLabel() {
-		this.statLabel = new JLabel(Constants.URL_SCRAPE);
-		this.displayPanel.add(this.statLabel, super.setGridLocation(0, 0));
-		
-		this.nameLabel = new JLabel(Constants.NAME);
-		this.buttonPanel.add(this.nameLabel, super.setGridLocation(0, 0));
+    	this.nameLabel = new JLabel(Constants.NAME);
+		this.personalPanel.add(this.nameLabel, super.setGridLocation(0, 0));
 		this.addressLabel = new JLabel(Constants.ADDRESS);
-		this.buttonPanel.add(this.addressLabel, super.setGridLocation(0, 1));
+		this.personalPanel.add(this.addressLabel, super.setGridLocation(0, 1));
 		this.billingPeriodLabel = new JLabel(Constants.BILLING_PERIOD);
-		this.buttonPanel.add(this.billingPeriodLabel, super.setGridLocation(0, 2));
+		this.personalPanel.add(this.billingPeriodLabel, super.setGridLocation(0, 2));
 		this.emailLabel = new JLabel(Constants.EMAIL);
-		this.buttonPanel.add(this.emailLabel, super.setGridLocation(0, 3));
+		this.personalPanel.add(this.emailLabel, super.setGridLocation(0, 3));
 	}
 	
 	public void setUpButton() {
-		
 		this.exportExcelButton = new JButton();
 		this.exportExcelButton.setText(Constants.EXPORT);
 		this.exportExcelButton.setEnabled(false);
-		this.buttonPanel.add(this.exportExcelButton, super.setGridLocation(2, 1));
+		this.buttonPanel.add(this.exportExcelButton, super.setGridLocation(1, 1));
 		
 		this.logoutButton = new JButton();
 		this.logoutButton.setText(Constants.LOGOUT);
 		this.logoutButton.setEnabled(false);
-		this.buttonPanel.add(this.logoutButton, super.setGridLocation(2, 2));
+		this.buttonPanel.add(this.logoutButton, super.setGridLocation(1, 2));
 		
-		this.addInformationButton = new JButton();
-		this.addInformationButton.setText(Constants.PERSONAL_INFORMATION);
-		this.buttonPanel.add(this.addInformationButton, super.setGridLocation(1, 4));
+		this.visualisationButton = new JButton();
+		this.visualisationButton.setText(Constants.DATA_VISUALISATION);
+		this.visualisationButton.setEnabled(false);
+		this.buttonPanel.add(this.visualisationButton, super.setGridLocation(1, 3));
+		}
+
+	/**
+	 * @return the visualisationButton
+	 */
+	public JButton getVisualisationButton() {
+		return visualisationButton;
 	}
+
+	/**
+	 * @param visualisationButton the visualisationButton to set
+	 */
+	public void setVisualisationButton(JButton visualisationButton) {
+		this.visualisationButton = visualisationButton;
+	}
+
+	/**
+	 * @return the exportExcelButton
+	 */
+	public JButton getExportExcelButton() {
+		return exportExcelButton;
+	}
+
+	/**
+	 * @param exportExcelButton the exportExcelButton to set
+	 */
+	public void setExportExcelButton(JButton exportExcelButton) {
+		this.exportExcelButton = exportExcelButton;
+	}
+
+	/**
+	 * @return the logoutButton
+	 */
+	public JButton getLogoutButton() {
+		return logoutButton;
+	}
+
+	/**
+	 * @param logoutButton the logoutButton to set
+	 */
+	public void setLogoutButton(JButton logoutButton) {
+		this.logoutButton = logoutButton;
+	}
+	
+	
 }

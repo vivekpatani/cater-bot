@@ -1,4 +1,9 @@
 package ui;
+/**
+ * Andres, Sameksha, Shruti, Vivek
+ * EditingWindow.java
+ * {Andres - Caterers 0.9}
+ */
 
 import java.awt.Dimension;
 import java.awt.GridBagLayout;

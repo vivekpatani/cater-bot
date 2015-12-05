@@ -1,13 +1,17 @@
 package Main;
+/**
+ * Andres, Sameksha, Shruti, Vivek
+ * Constants.java
+ * {Andres - Caterers 0.9}
+ */
 
-/*
+/**
  * Constants.java
  * 
  * This file is used to register basic Constants that may be used
  * by other files. It creates a simple repo of Constants and avoids
- * hard coding and avoids magic numbers
+ * hard coding and magic numbers
  */
-
 public class Constants {
 	
 	public static final String ERROR_MESSAGE = "Error Message: ";
@@ -29,6 +33,8 @@ public class Constants {
 	public static final String LOGOUT = "Logout";
 	public static final String FILE = "/cateringBill.xls";
 	public static final String DISPLAY_DATA = "Collectd Data";
+	public static final String DATA_MANIPULATION = "Data Manipulation";
+	public static final String DATA_VISUALISATION = "Data Visualisation";
 
 	
 	public static final int WINDOW_WIDTH = 700;

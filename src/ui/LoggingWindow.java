@@ -1,5 +1,9 @@
 package ui;
-
+/**
+ * Andres, Sameksha, Shruti, Vivek
+ * LoggingWindow.java
+ * {Andres - Caterers 0.9}
+ */
 import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JFrame;
