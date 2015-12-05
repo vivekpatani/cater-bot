@@ -86,6 +86,7 @@ public class ViewController implements ActionListener {
 			this.webController.quit();
 			this.displayWindow.setVisible(false);
 			this.displayWindow.validate();
+			this.displayWindow.dispose();
 		} else if(e.getSource() == displayWindow.getFilterButton()){
 				//Sameeksha Code Call
 			}

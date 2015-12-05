@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -46,6 +47,12 @@ public class DisplayWindow extends AbstractPanel{
 	private JLabel billingPeriodLabel;
 	private JLabel emailLabel;
 	
+	//Personal Information Panel
+	private JLabel nameLabelData;
+	private JLabel addressLabelData;
+	private JLabel billingPeriodLabelData;
+	private JLabel emailLabelData;
+	
 	//Utility Button Panel
 	private JPanel buttonPanel;
 	
@@ -55,6 +62,9 @@ public class DisplayWindow extends AbstractPanel{
 	private JButton logoutButton;
 	private JButton filterButton;
 	private JButton exitButton;
+	
+	//Split Pane
+	private JSplitPane personalButtonPanel;
 	
 	//Display Data Panel
 	private JPanel displayPanel;
@@ -126,10 +136,12 @@ public class DisplayWindow extends AbstractPanel{
 				.createTitledBorder(Constants.DISPLAY_DATA));
 		//this.displayPanel.setLayout(new GridBagLayout()); //Setting Layout causes to shrink
 		
+		//Combining the personal and the button
+		super.getPanel().setLayout(new GridLayout(2, 1));
+		personalButtonPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,personalPanel,buttonPanel);
+		
 		//Adding and Setting Layout
-		super.getPanel().setLayout(new GridLayout(3, 1));
-		super.getPanel().add(this.personalPanel);
-		super.getPanel().add(this.buttonPanel);
+		super.getPanel().add(this.personalButtonPanel);
 		super.getPanel().add(this.displayPanel);
 	}
 	
@@ -148,14 +160,38 @@ public class DisplayWindow extends AbstractPanel{
 	 * Method to Setup various labels required in the Display Window
 	 */
     public void setUpLabel() {
+    	
+    	//The name Label
     	this.nameLabel = new JLabel(Constants.NAME);
 		this.personalPanel.add(this.nameLabel, super.setGridLocation(0, 0));
+		
+		//The name Label Data - Needs to taken from Editing Window
+		this.nameLabelData = new JLabel(Constants.NAME);
+		this.personalPanel.add(this.nameLabelData, super.setGridLocation(0, 1));
+		
+		//The Address Label
 		this.addressLabel = new JLabel(Constants.ADDRESS);
-		this.personalPanel.add(this.addressLabel, super.setGridLocation(0, 1));
+		this.personalPanel.add(this.addressLabel, super.setGridLocation(1, 0));
+		
+		//The address Label Data - Needs to taken from Editing Window
+		this.addressLabelData = new JLabel(Constants.ADDRESS);
+		this.personalPanel.add(this.addressLabelData, super.setGridLocation(1, 1));
+				
+		//The billing Label
 		this.billingPeriodLabel = new JLabel(Constants.BILLING_PERIOD);
-		this.personalPanel.add(this.billingPeriodLabel, super.setGridLocation(0, 2));
+		this.personalPanel.add(this.billingPeriodLabel, super.setGridLocation(2, 0));
+		
+		//The billing Label Data - Needs to taken from Editing Window
+		this.billingPeriodLabelData = new JLabel(Constants.BILLING_PERIOD);
+		this.personalPanel.add(this.billingPeriodLabelData, super.setGridLocation(2, 1));
+		
+		//The Email Label
 		this.emailLabel = new JLabel(Constants.EMAIL);
-		this.personalPanel.add(this.emailLabel, super.setGridLocation(0, 3));
+		this.personalPanel.add(this.emailLabel, super.setGridLocation(3, 0));
+		
+		//The Email Label
+		this.emailLabelData = new JLabel(Constants.EMAIL);
+		this.personalPanel.add(this.emailLabelData, super.setGridLocation(3, 1));
 	}
 	
     /**
@@ -173,25 +209,25 @@ public class DisplayWindow extends AbstractPanel{
 		this.logoutButton = new JButton();
 		this.logoutButton.setText(Constants.LOGOUT);
 		this.logoutButton.setEnabled(false);
-		this.buttonPanel.add(this.logoutButton, super.setGridLocation(1, 2));
+		this.buttonPanel.add(this.logoutButton, super.setGridLocation(2, 1));
 		
 		//Setting up the button which displays the various visulations
 		this.visualisationButton = new JButton();
 		this.visualisationButton.setText(Constants.DATA_VISUALISATION);
 		this.visualisationButton.setEnabled(false);
-		this.buttonPanel.add(this.visualisationButton, super.setGridLocation(1, 3));
+		this.buttonPanel.add(this.visualisationButton, super.setGridLocation(1, 2));
 		
 		//Setting up the button which helps the user Filter Data
 		this.filterButton = new JButton();
 		this.filterButton.setText(Constants.FILTER_DATA);
 		this.filterButton.setEnabled(false);
-		this.buttonPanel.add(this.filterButton,super.setGridLocation(1, 4));
+		this.buttonPanel.add(this.filterButton,super.setGridLocation(2, 2));
 		
 		//Setting up the button which helps the user Filter Data
 		this.exitButton = new JButton();
 		this.exitButton.setText(Constants.EXIT);
 		this.exitButton.setEnabled(false);
-		this.buttonPanel.add(this.exitButton,super.setGridLocation(1, 5));
+		this.buttonPanel.add(this.exitButton,super.setGridLocation(3, 1));
 		}
 
 	/**
