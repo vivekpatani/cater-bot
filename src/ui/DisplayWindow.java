@@ -7,6 +7,7 @@ package ui;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Window;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -52,6 +53,8 @@ public class DisplayWindow extends AbstractPanel{
 	private JButton visualisationButton;
 	private JButton exportExcelButton;
 	private JButton logoutButton;
+	private JButton filterButton;
+	private JButton exitButton;
 	
 	//Display Data Panel
 	private JPanel displayPanel;
@@ -83,7 +86,7 @@ public class DisplayWindow extends AbstractPanel{
 	 */
 	private void init(){
 		super.setName(Constants.SOFTWARE_NAME);
-		this.setSize(Constants.WINDOW_WIDTH / 2, Constants.WINDOW_HEIGHT / 2);
+		this.setSize(Constants.WINDOW_WIDTH , Constants.WINDOW_HEIGHT);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -100,22 +103,30 @@ public class DisplayWindow extends AbstractPanel{
 		setUpButton();
 	}
 	
+	/**
+	 * Method to build all the individual panel
+	 */
 	public void setUpPanel() {
+		
+		//This is the setup for the Top Most Personal Panel
 		this.personalPanel = new JPanel();
 		this.personalPanel.setBorder(BorderFactory
 				.createTitledBorder(Constants.PERSONAL_INFORMATION));
 		this.personalPanel.setLayout(new GridBagLayout());
 		
+		//This is the setup for the Middle Panel consisting of Data Manipulation and Misc
 		this.buttonPanel = new JPanel();
 		this.buttonPanel.setBorder(BorderFactory
 				.createTitledBorder(Constants.DATA_MANIPULATION));
 		this.buttonPanel.setLayout(new GridBagLayout());
 		
+		//This is the setup for the Bottom Most Display Data Panel
 		this.displayPanel = new JPanel();
 		this.displayPanel.setBorder(BorderFactory
 				.createTitledBorder(Constants.DISPLAY_DATA));
-		this.displayPanel.setLayout(new GridBagLayout());
-
+		//this.displayPanel.setLayout(new GridBagLayout()); //Setting Layout causes to shrink
+		
+		//Adding and Setting Layout
 		super.getPanel().setLayout(new GridLayout(3, 1));
 		super.getPanel().add(this.personalPanel);
 		super.getPanel().add(this.buttonPanel);
@@ -123,7 +134,7 @@ public class DisplayWindow extends AbstractPanel{
 	}
 	
 	/**
-	 * To setup the buttons required in the window.
+	 * To setup the Data Table required in the window
 	 */
 	public void setUpTable()
     {
@@ -133,6 +144,9 @@ public class DisplayWindow extends AbstractPanel{
         displayPanel.add(new JScrollPane(dataTable), super.setGridLocation(3, 1));
     }
     
+	/**
+	 * Method to Setup various labels required in the Display Window
+	 */
     public void setUpLabel() {
     	this.nameLabel = new JLabel(Constants.NAME);
 		this.personalPanel.add(this.nameLabel, super.setGridLocation(0, 0));
@@ -144,21 +158,40 @@ public class DisplayWindow extends AbstractPanel{
 		this.personalPanel.add(this.emailLabel, super.setGridLocation(0, 3));
 	}
 	
+    /**
+     * To setup the buttons required in the window
+     */
 	public void setUpButton() {
+		
+		//Setting up the button which exports the data to an Excel Sheet
 		this.exportExcelButton = new JButton();
 		this.exportExcelButton.setText(Constants.EXPORT);
 		this.exportExcelButton.setEnabled(false);
 		this.buttonPanel.add(this.exportExcelButton, super.setGridLocation(1, 1));
 		
+		//Setting up the button which logs the user of the account
 		this.logoutButton = new JButton();
 		this.logoutButton.setText(Constants.LOGOUT);
 		this.logoutButton.setEnabled(false);
 		this.buttonPanel.add(this.logoutButton, super.setGridLocation(1, 2));
 		
+		//Setting up the button which displays the various visulations
 		this.visualisationButton = new JButton();
 		this.visualisationButton.setText(Constants.DATA_VISUALISATION);
 		this.visualisationButton.setEnabled(false);
 		this.buttonPanel.add(this.visualisationButton, super.setGridLocation(1, 3));
+		
+		//Setting up the button which helps the user Filter Data
+		this.filterButton = new JButton();
+		this.filterButton.setText(Constants.FILTER_DATA);
+		this.filterButton.setEnabled(false);
+		this.buttonPanel.add(this.filterButton,super.setGridLocation(1, 4));
+		
+		//Setting up the button which helps the user Filter Data
+		this.exitButton = new JButton();
+		this.exitButton.setText(Constants.EXIT);
+		this.exitButton.setEnabled(false);
+		this.buttonPanel.add(this.exitButton,super.setGridLocation(1, 5));
 		}
 
 	/**
@@ -201,6 +234,34 @@ public class DisplayWindow extends AbstractPanel{
 	 */
 	public void setLogoutButton(JButton logoutButton) {
 		this.logoutButton = logoutButton;
+	}
+
+	/**
+	 * @return the filterButton
+	 */
+	public JButton getFilterButton() {
+		return filterButton;
+	}
+
+	/**
+	 * @param filterButton the filterButton to set
+	 */
+	public void setFilterButton(JButton filterButton) {
+		this.filterButton = filterButton;
+	}
+
+	/**
+	 * @return the exitButton
+	 */
+	public JButton getExitButton() {
+		return exitButton;
+	}
+
+	/**
+	 * @param exitButton the exitButton to set
+	 */
+	public void setExitButton(JButton exitButton) {
+		this.exitButton = exitButton;
 	}
 	
 	

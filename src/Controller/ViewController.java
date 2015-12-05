@@ -53,14 +53,16 @@ public class ViewController implements ActionListener {
 				this.webController.login(
 						this.loginWindow.getUserText().getText(), 
 						pass_wrd);
-				this.editWindow.getLogoutButton().setEnabled(true);
-				this.editWindow.getExportExcelButton().setEnabled(true);
+//				this.editWindow.getLogoutButton().setEnabled(true);
+//				this.editWindow.getExportExcelButton().setEnabled(true);
 			} catch (Exception e1) {
 				LOGGER.error(Constants.ERROR_MESSAGE, e1);
 			}
 			this.displayWindow.getExportExcelButton().setEnabled(true);
 			this.displayWindow.getVisualisationButton().setEnabled(true);
 			this.displayWindow.getLogoutButton().setEnabled(true);
+			this.displayWindow.getExitButton().setEnabled(true);
+			this.displayWindow.getFilterButton().setEnabled(true);
 			this.loginWindow.setVisible(false);
 			this.displayWindow.setVisible(true);
 		} else if (e.getSource() == this.loginWindow.getCancelButton()) {
@@ -78,9 +80,16 @@ public class ViewController implements ActionListener {
 			this.webController.getFrame("header");
 			this.webController.logout();
 			this.webController.quit();
+		} else if (e.getSource() == displayWindow.getExitButton()) {
+			this.webController.getFrame("header");
+			this.webController.logout();
+			this.webController.quit();
+			this.displayWindow.setVisible(false);
+			this.displayWindow.validate();
+		} else if(e.getSource() == displayWindow.getFilterButton()){
+				//Sameeksha Code Call
+			}
 		}
-		
-	}
 	
 	public void initButtonMain() {
 		this.mainWindow.getStartButton().addActionListener(this);
@@ -94,13 +103,15 @@ public class ViewController implements ActionListener {
 	public void initButtonEdit() {
 		this.editWindow.getScrapeButton().addActionListener(this);
 		//this.editWindow.getAddInformationButton().addActionListener(this);
-		this.editWindow.getExportExcelButton().addActionListener(this);
-		this.editWindow.getLogoutButton().addActionListener(this);
+		//this.editWindow.getExportExcelButton().addActionListener(this);
+		//this.editWindow.getLogoutButton().addActionListener(this);
 	}
 	
 	public void initDisplay() {
 		this.displayWindow.getExportExcelButton().addActionListener(this);
 		this.displayWindow.getLogoutButton().addActionListener(this);
 		this.displayWindow.getVisualisationButton().addActionListener(this);
+		this.displayWindow.getExitButton().addActionListener(this);
+		this.displayWindow.getFilterButton().addActionListener(this);
 	}
 }

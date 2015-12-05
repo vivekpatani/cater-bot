@@ -35,6 +35,8 @@ public class Constants {
 	public static final String DISPLAY_DATA = "Collectd Data";
 	public static final String DATA_MANIPULATION = "Data Manipulation";
 	public static final String DATA_VISUALISATION = "Data Visualisation";
+	public static final String FILTER_DATA = "Filter Data";
+	public static final String EXIT = "Exit";
 
 	
 	public static final int WINDOW_WIDTH = 700;
