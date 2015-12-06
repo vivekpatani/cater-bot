@@ -4,10 +4,8 @@
  * {Andres - Caterers 0.9}
  */
 package ui;
-import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Window;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -17,13 +15,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import Main.Constants;
+import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
 /**
  * Class used to Display Data and Export it to various formats.
@@ -46,6 +45,9 @@ public class DisplayWindow extends AbstractPanel{
 	private JLabel addressLabel;
 	private JLabel billingPeriodLabel;
 	private JLabel emailLabel;
+	private JLabel startDateLabel;
+	private JLabel endDateLabel;
+	
 	
 	//Personal Information Panel
 	private JLabel nameLabelData;
@@ -62,6 +64,8 @@ public class DisplayWindow extends AbstractPanel{
 	private JButton logoutButton;
 	private JButton filterButton;
 	private JButton exitButton;
+	
+	
 	
 	//Split Pane
 	private JSplitPane personalButtonPanel;
@@ -192,6 +196,13 @@ public class DisplayWindow extends AbstractPanel{
 		//The Email Label
 		this.emailLabelData = new JLabel(Constants.EMAIL);
 		this.personalPanel.add(this.emailLabelData, super.setGridLocation(3, 1));
+		
+		this.startDateLabel = new JLabel(Constants.START_DATE);
+		this.buttonPanel.add(this.startDateLabel,super.setGridLocation(0, 0));
+		
+		this.endDateLabel = new JLabel(Constants.END_DATE);
+		this.buttonPanel.add(this.endDateLabel,super.setGridLocation(0, 1));
+		
 	}
 	
     /**
@@ -203,31 +214,43 @@ public class DisplayWindow extends AbstractPanel{
 		this.exportExcelButton = new JButton();
 		this.exportExcelButton.setText(Constants.EXPORT);
 		this.exportExcelButton.setEnabled(false);
-		this.buttonPanel.add(this.exportExcelButton, super.setGridLocation(1, 1));
+		this.buttonPanel.add(this.exportExcelButton, super.setGridLocation(2, 1));
 		
 		//Setting up the button which logs the user of the account
 		this.logoutButton = new JButton();
 		this.logoutButton.setText(Constants.LOGOUT);
 		this.logoutButton.setEnabled(false);
-		this.buttonPanel.add(this.logoutButton, super.setGridLocation(2, 1));
+		this.buttonPanel.add(this.logoutButton, super.setGridLocation(3, 1));
 		
 		//Setting up the button which displays the various visulations
 		this.visualisationButton = new JButton();
 		this.visualisationButton.setText(Constants.DATA_VISUALISATION);
 		this.visualisationButton.setEnabled(false);
-		this.buttonPanel.add(this.visualisationButton, super.setGridLocation(1, 2));
+		this.buttonPanel.add(this.visualisationButton, super.setGridLocation(2, 2));
 		
 		//Setting up the button which helps the user Filter Data
 		this.filterButton = new JButton();
 		this.filterButton.setText(Constants.FILTER_DATA);
 		this.filterButton.setEnabled(false);
-		this.buttonPanel.add(this.filterButton,super.setGridLocation(2, 2));
+		this.buttonPanel.add(this.filterButton,super.setGridLocation(3, 2));
 		
 		//Setting up the button which helps the user Filter Data
 		this.exitButton = new JButton();
 		this.exitButton.setText(Constants.EXIT);
 		this.exitButton.setEnabled(false);
-		this.buttonPanel.add(this.exitButton,super.setGridLocation(3, 1));
+		this.buttonPanel.add(this.exitButton,super.setGridLocation(4, 1));
+		
+		
+		UtilDateModel model = new UtilDateModel();
+		JDatePanelImpl datePickerPanel = new JDatePanelImpl(model);
+		JDatePickerImpl startDatePicker = new JDatePickerImpl(datePickerPanel);
+		this.buttonPanel.add(startDatePicker);
+		
+		UtilDateModel model2 = new UtilDateModel();
+		JDatePanelImpl datePickerPanel2 = new JDatePanelImpl(model2);
+		JDatePickerImpl endDatePicker = new JDatePickerImpl(datePickerPanel);
+		this.buttonPanel.add(endDatePicker);
+		
 		}
 
 	/**
