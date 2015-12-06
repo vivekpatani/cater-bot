@@ -65,6 +65,9 @@ public class DisplayWindow extends AbstractPanel{
 	private JButton filterButton;
 	private JButton exitButton;
 	
+	//DatePicker options
+	public JDatePickerImpl endDatePicker;
+	public JDatePickerImpl startDatePicker;
 	
 	
 	//Split Pane
@@ -243,13 +246,13 @@ public class DisplayWindow extends AbstractPanel{
 		
 		UtilDateModel model = new UtilDateModel();
 		JDatePanelImpl datePickerPanel = new JDatePanelImpl(model);
-		JDatePickerImpl startDatePicker = new JDatePickerImpl(datePickerPanel);
-		this.buttonPanel.add(startDatePicker);
+		 startDatePicker = new JDatePickerImpl(datePickerPanel);
+		this.buttonPanel.add(this.startDatePicker,super.setGridLocation(5, 1));
 		
 		UtilDateModel model2 = new UtilDateModel();
 		JDatePanelImpl datePickerPanel2 = new JDatePanelImpl(model2);
-		JDatePickerImpl endDatePicker = new JDatePickerImpl(datePickerPanel);
-		this.buttonPanel.add(endDatePicker);
+		 endDatePicker = new JDatePickerImpl(datePickerPanel2);
+		this.buttonPanel.add(this.endDatePicker,super.setGridLocation(6, 1));
 		
 		}
 
@@ -321,6 +324,22 @@ public class DisplayWindow extends AbstractPanel{
 	 */
 	public void setExitButton(JButton exitButton) {
 		this.exitButton = exitButton;
+	}
+
+	JDatePickerImpl getStartDatePicker() {
+		return startDatePicker;
+	}
+
+	void setStartDatePicker(JDatePickerImpl startDatePicker) {
+		this.startDatePicker = startDatePicker;
+	}
+
+	JDatePickerImpl getEndDatePicker() {
+		return endDatePicker;
+	}
+
+	void setEndDatePicker(JDatePickerImpl endDatePicker) {
+		this.endDatePicker = endDatePicker;
 	}
 	
 	

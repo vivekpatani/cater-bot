@@ -356,6 +356,47 @@ public class WebController {
 		
 		this.firefoxDriver.switchTo().parentFrame();
 	}
+	
+
+	/**
+	 * filterData()
+	 * filter data based on the date provided by the user.
+	 * @param startDate,endDate
+	 */
+	public void filterData(String startDate, String endDate) {
+		try {
+			Thread.sleep(5000);
+
+			System.out.println("Title of the page BEFORE - switchingTo: " + firefoxDriver.getTitle());
+			WebElement filterTag = this.firefoxDriver.findElementByXPath("//*[@id='screenlinks']/div[1]/a");
+
+			filterTag.click();
+			for (String winHandle : firefoxDriver.getWindowHandles()) {
+				this.firefoxDriver.switchTo().window(winHandle);
+			}
+			Thread.sleep(5000);
+			// getFrame("filterPreferences");
+			WebElement webStartDate = this.firefoxDriver.findElement(By.id("startDate"));
+			WebElement webEndDate = this.firefoxDriver.findElement(By.id("endDate"));
+			WebElement applyButton = this.firefoxDriver.findElement(By.id("apply"));
+
+			webStartDate.clear();
+			webEndDate.clear();
+
+			webStartDate.sendKeys(startDate);
+			webEndDate.sendKeys(endDate);
+			applyButton.click();
+
+			//System.out.println("Title of the page after - switchingTo: " + firefoxDriver.getTitle());
+
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
 
 	// MAIN (testing purposes)
 	public static void main(String[] args) throws Exception {

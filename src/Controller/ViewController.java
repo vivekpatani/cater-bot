@@ -6,6 +6,7 @@ package Controller;
  */
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,6 +29,8 @@ public class ViewController implements ActionListener {
 	private PersonalInfoController personalController;
 	private WebController webController;
 	private DisplayWindow displayWindow;
+	private String startDate;
+	private String endDate;
 	
 	public ViewController(MainWindow mainWindow, LoggingWindow loginWindow, EditingWindow editWindow, DisplayWindow displayWindow) {
 		this.mainWindow = mainWindow;
@@ -89,6 +92,13 @@ public class ViewController implements ActionListener {
 			this.displayWindow.dispose();
 		} else if(e.getSource() == displayWindow.getFilterButton()){
 				//Sameeksha Code Call
+			this.webController.getFrame("header");
+			SimpleDateFormat formatter
+		     = new SimpleDateFormat ("MM/dd/yyyy");
+		 
+		 startDate = formatter.format(this.displayWindow.startDatePicker.getModel().getValue()).toString();
+		 endDate = formatter.format(this.displayWindow.endDatePicker.getModel().getValue()).toString();
+			this.webController.filterData(startDate, endDate);
 			}
 		}
 	
