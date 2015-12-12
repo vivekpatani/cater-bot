@@ -210,5 +210,4 @@ public class EditingWindow extends AbstractPanel {
 	public void setLogoutButton(JButton logoutButton) {
 		this.logoutButton = logoutButton;
 	}
-
 }

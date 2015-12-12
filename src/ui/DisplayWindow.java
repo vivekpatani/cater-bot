@@ -30,7 +30,7 @@ import net.sourceforge.jdatepicker.impl.UtilDateModel;
 public class DisplayWindow extends AbstractPanel{
 	
 	/**
-	 * 
+	 * SerialID
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -64,6 +64,7 @@ public class DisplayWindow extends AbstractPanel{
 	private JButton logoutButton;
 	private JButton filterButton;
 	private JButton exitButton;
+	private JButton helpButton;
 	
 	//DatePicker options
 	public JDatePickerImpl endDatePicker;
@@ -75,6 +76,9 @@ public class DisplayWindow extends AbstractPanel{
 	
 	//Display Data Panel
 	private JPanel displayPanel;
+	
+	//The Help Button Panel
+	private JPanel helpPanel;
 	
 	//Display Table
 	private JTable dataTable;
@@ -116,8 +120,9 @@ public class DisplayWindow extends AbstractPanel{
 
 		setUpPanel();
 		setUpLabel();
-		setUpTable();
 		setUpButton();
+		setupHelpPanel();
+		setUpTable();
 	}
 	
 	/**
@@ -137,19 +142,25 @@ public class DisplayWindow extends AbstractPanel{
 				.createTitledBorder(Constants.DATA_MANIPULATION));
 		this.buttonPanel.setLayout(new GridBagLayout());
 		
-		//This is the setup for the Bottom Most Display Data Panel
+		//This is the setup for the Display Data Panel
 		this.displayPanel = new JPanel();
 		this.displayPanel.setBorder(BorderFactory
 				.createTitledBorder(Constants.DISPLAY_DATA));
 		//this.displayPanel.setLayout(new GridBagLayout()); //Setting Layout causes to shrink
 		
+		//This is used to add the help Panel
+		this.helpPanel = new JPanel();
+		this.helpPanel.setBorder(BorderFactory
+				.createTitledBorder(Constants.HELP));
+		
 		//Combining the personal and the button
-		super.getPanel().setLayout(new GridLayout(2, 1));
+		super.getPanel().setLayout(new GridLayout(3, 1));
 		personalButtonPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,personalPanel,buttonPanel);
 		
 		//Adding and Setting Layout
 		super.getPanel().add(this.personalButtonPanel);
 		super.getPanel().add(this.displayPanel);
+		super.getPanel().add(this.helpPanel);
 	}
 	
 	/**
@@ -159,6 +170,7 @@ public class DisplayWindow extends AbstractPanel{
     {
         //create table with data
         dataTable = new JTable(data, columns);
+        
         //add the table to the frame
         displayPanel.add(new JScrollPane(dataTable), super.setGridLocation(3, 1));
     }
@@ -174,11 +186,11 @@ public class DisplayWindow extends AbstractPanel{
 		
 		//The name Label Data - Needs to taken from Editing Window
 		this.nameLabelData = new JLabel(Constants.NAME);
-		this.personalPanel.add(this.nameLabelData, super.setGridLocation(0, 1));
+		this.personalPanel.add(this.nameLabelData, super.setGridLocation(1, 0));
 		
 		//The Address Label
 		this.addressLabel = new JLabel(Constants.ADDRESS);
-		this.personalPanel.add(this.addressLabel, super.setGridLocation(1, 0));
+		this.personalPanel.add(this.addressLabel, super.setGridLocation(0, 1));
 		
 		//The address Label Data - Needs to taken from Editing Window
 		this.addressLabelData = new JLabel(Constants.ADDRESS);
@@ -186,26 +198,27 @@ public class DisplayWindow extends AbstractPanel{
 				
 		//The billing Label
 		this.billingPeriodLabel = new JLabel(Constants.BILLING_PERIOD);
-		this.personalPanel.add(this.billingPeriodLabel, super.setGridLocation(2, 0));
+		this.personalPanel.add(this.billingPeriodLabel, super.setGridLocation(0, 2));
 		
 		//The billing Label Data - Needs to taken from Editing Window
 		this.billingPeriodLabelData = new JLabel(Constants.BILLING_PERIOD);
-		this.personalPanel.add(this.billingPeriodLabelData, super.setGridLocation(2, 1));
+		this.personalPanel.add(this.billingPeriodLabelData, super.setGridLocation(1, 2));
 		
 		//The Email Label
 		this.emailLabel = new JLabel(Constants.EMAIL);
-		this.personalPanel.add(this.emailLabel, super.setGridLocation(3, 0));
+		this.personalPanel.add(this.emailLabel, super.setGridLocation(0, 3));
 		
 		//The Email Label
 		this.emailLabelData = new JLabel(Constants.EMAIL);
-		this.personalPanel.add(this.emailLabelData, super.setGridLocation(3, 1));
+		this.personalPanel.add(this.emailLabelData, super.setGridLocation(1, 3));
 		
+		//The Start Date Label
 		this.startDateLabel = new JLabel(Constants.START_DATE);
-		this.buttonPanel.add(this.startDateLabel,super.setGridLocation(0, 0));
+		this.buttonPanel.add(this.startDateLabel,super.setGridLocation(0, 2));
 		
+		//The End Data Label
 		this.endDateLabel = new JLabel(Constants.END_DATE);
-		this.buttonPanel.add(this.endDateLabel,super.setGridLocation(0, 1));
-		
+		this.buttonPanel.add(this.endDateLabel,super.setGridLocation(0, 4));
 	}
 	
     /**
@@ -217,44 +230,57 @@ public class DisplayWindow extends AbstractPanel{
 		this.exportExcelButton = new JButton();
 		this.exportExcelButton.setText(Constants.EXPORT);
 		this.exportExcelButton.setEnabled(false);
-		this.buttonPanel.add(this.exportExcelButton, super.setGridLocation(2, 1));
+		this.displayPanel.add(this.exportExcelButton, super.setGridLocation(0, 0));
 		
 		//Setting up the button which logs the user of the account
 		this.logoutButton = new JButton();
 		this.logoutButton.setText(Constants.LOGOUT);
 		this.logoutButton.setEnabled(false);
-		this.buttonPanel.add(this.logoutButton, super.setGridLocation(3, 1));
+		this.helpPanel.add(this.logoutButton, super.setGridLocation(0, 2));
 		
 		//Setting up the button which displays the various visulations
 		this.visualisationButton = new JButton();
 		this.visualisationButton.setText(Constants.DATA_VISUALISATION);
 		this.visualisationButton.setEnabled(false);
-		this.buttonPanel.add(this.visualisationButton, super.setGridLocation(2, 2));
+		this.buttonPanel.add(this.visualisationButton, super.setGridLocation(3, 6));
 		
 		//Setting up the button which helps the user Filter Data
 		this.filterButton = new JButton();
 		this.filterButton.setText(Constants.FILTER_DATA);
 		this.filterButton.setEnabled(false);
-		this.buttonPanel.add(this.filterButton,super.setGridLocation(3, 2));
+		this.buttonPanel.add(this.filterButton,super.setGridLocation(1, 6));
 		
 		//Setting up the button which helps the user Filter Data
 		this.exitButton = new JButton();
 		this.exitButton.setText(Constants.EXIT);
 		this.exitButton.setEnabled(false);
-		this.buttonPanel.add(this.exitButton,super.setGridLocation(4, 1));
+		this.helpPanel.add(this.exitButton,super.setGridLocation(0, 4));
 		
+		//Setting up the help button
+		this.helpButton = new JButton();
+		this.helpButton.setText(Constants.HELP);
+		this.helpButton.setEnabled(true);
+		this.helpPanel.add(this.helpButton, super.setGridLocation(0, 6));
 		
+		//The Start Date Picker Function
 		UtilDateModel model = new UtilDateModel();
 		JDatePanelImpl datePickerPanel = new JDatePanelImpl(model);
 		 startDatePicker = new JDatePickerImpl(datePickerPanel);
-		this.buttonPanel.add(this.startDatePicker,super.setGridLocation(5, 1));
+		this.buttonPanel.add(this.startDatePicker,super.setGridLocation(1, 2));
 		
+		//The End Date Picker Function
 		UtilDateModel model2 = new UtilDateModel();
 		JDatePanelImpl datePickerPanel2 = new JDatePanelImpl(model2);
 		 endDatePicker = new JDatePickerImpl(datePickerPanel2);
-		this.buttonPanel.add(this.endDatePicker,super.setGridLocation(6, 1));
+		this.buttonPanel.add(this.endDatePicker,super.setGridLocation(1, 4));
 		
 		}
+	
+	public void setupHelpPanel(){
+		
+		
+		
+	}
 
 	/**
 	 * @return the visualisationButton

@@ -39,6 +39,7 @@ public class Constants {
 	public static final String EXIT = "Exit";
 	public static final String START_DATE = "Start Date";
 	public static final String END_DATE = "End Date";
+	public static final String HELP = "Help";
 	
 	public static final int WINDOW_WIDTH = 700;
 	public static final int WINDOW_HEIGHT = 700;

@@ -113,9 +113,6 @@ public class ViewController implements ActionListener {
 	
 	public void initButtonEdit() {
 		this.editWindow.getScrapeButton().addActionListener(this);
-		//this.editWindow.getAddInformationButton().addActionListener(this);
-		//this.editWindow.getExportExcelButton().addActionListener(this);
-		//this.editWindow.getLogoutButton().addActionListener(this);
 	}
 	
 	public void initDisplay() {

@@ -15,12 +15,10 @@ import Main.Constants;
 import Model.EmployeeInformation;
 import Model.EventInformation;
 
-/**
- * ExcelController
- * 
- * allows creating an excel workbook to be written information from web and personal
- * @author drusc0
- *
+/** 
+ * Andres, Sameksha, Shruti, Vivek
+ * ExcelController.java
+ * {Andres - Caterers 0.9}
  */
 public class ExcelController {
 
@@ -117,6 +115,9 @@ public class ExcelController {
 		
 	}
 	
+	/**
+	 * Method trying to write the data received
+	 */
 	public void write() {
 		try {
 			this.workbook.write(this.out);
