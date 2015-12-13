@@ -81,12 +81,12 @@ public class ViewController implements ActionListener {
 			this.editWindow.setVisible(false);
 			this.loginWindow.setVisible(true);
 		} else if (e.getSource() == displayWindow.getExportExcelButton()) {
+			this.webController.changeWindow();
 			this.webController.getFrame("right");
 			this.webController.exportToExcel();
 		} else if (e.getSource() == displayWindow.getLogoutButton()) {
 			this.webController.changeWindow();
 			this.webController.getFrame("header");
-
 			this.webController.logout();
 			this.webController.quit();
 		} else if (e.getSource() == displayWindow.getExitButton()) {
