@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import Main.Constants;
 import ui.DisplayWindow;
 import ui.EditingWindow;
+import ui.HelpWindow;
 import ui.LoggingWindow;
 import ui.MainWindow;
 
@@ -27,12 +28,13 @@ public class ViewController implements ActionListener {
 	private EditingWindow editWindow;
 	private ExcelController excelController;
 	private PersonalInfoController personalController;
+	private HelpWindow helpWindow;
 	private WebController webController;
 	private DisplayWindow displayWindow;
 	private String startDate;
 	private String endDate;
 	
-	public ViewController(MainWindow mainWindow, LoggingWindow loginWindow, EditingWindow editWindow, DisplayWindow displayWindow) {
+	public ViewController(MainWindow mainWindow, LoggingWindow loginWindow, EditingWindow editWindow, DisplayWindow displayWindow, HelpWindow helpWindow) {
 		this.mainWindow = mainWindow;
 		initButtonMain();
 		this.loginWindow = loginWindow;
@@ -44,6 +46,8 @@ public class ViewController implements ActionListener {
 		this.webController = new WebController(this.excelController);
 		this.displayWindow = displayWindow;
 		initDisplay();
+		this.helpWindow = helpWindow;
+		initHelpWindow();
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -99,6 +103,13 @@ public class ViewController implements ActionListener {
 		 startDate = formatter.format(this.displayWindow.startDatePicker.getModel().getValue()).toString();
 		 endDate = formatter.format(this.displayWindow.endDatePicker.getModel().getValue()).toString();
 			this.webController.filterData(startDate, endDate);
+			} else if(e.getSource() == displayWindow.getHelpButton()){
+				this.helpWindow.setVisible(true);
+			} else if(e.getSource() == helpWindow.getBackButton()){
+				this.helpWindow.setVisible(false);
+				this.helpWindow.validate();
+			} else if(e.getSource() == displayWindow.getExitButton()){
+				this.helpWindow.setVisible(true);
 			}
 		}
 	
@@ -121,5 +132,11 @@ public class ViewController implements ActionListener {
 		this.displayWindow.getVisualisationButton().addActionListener(this);
 		this.displayWindow.getExitButton().addActionListener(this);
 		this.displayWindow.getFilterButton().addActionListener(this);
+		this.displayWindow.getHelpButton().addActionListener(this);
+	}
+	
+	public void initHelpWindow() {
+		this.helpWindow.getBackButton().addActionListener(this);
+		this.helpWindow.getExitButton().addActionListener(this);
 	}
 }

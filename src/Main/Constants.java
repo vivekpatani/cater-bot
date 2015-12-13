@@ -54,4 +54,5 @@ public class Constants {
 	public static final int SUBMITBUTTON_BORDER = 10;
 	public static final int FIELD_WIDHT = 150;
 	public static final int FIELD_HEIGHT = 16;
+	public static final String BACK = "Back";
 }

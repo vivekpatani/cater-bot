@@ -121,7 +121,6 @@ public class DisplayWindow extends AbstractPanel{
 		setUpPanel();
 		setUpLabel();
 		setUpButton();
-		setupHelpPanel();
 		setUpTable();
 	}
 	
@@ -275,11 +274,19 @@ public class DisplayWindow extends AbstractPanel{
 		this.buttonPanel.add(this.endDatePicker,super.setGridLocation(1, 4));
 		
 		}
-	
-	public void setupHelpPanel(){
-		
-		
-		
+
+	/**
+	 * @return the helpButton
+	 */
+	public JButton getHelpButton() {
+		return helpButton;
+	}
+
+	/**
+	 * @param helpButton the helpButton to set
+	 */
+	public void setHelpButton(JButton helpButton) {
+		this.helpButton = helpButton;
 	}
 
 	/**

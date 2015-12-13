@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import ui.DisplayWindow;
 import ui.EditingWindow;
+import ui.HelpWindow;
 import ui.LoggingWindow;
 import ui.MainWindow;
 import Controller.ViewController;
@@ -34,8 +35,9 @@ public class Launcher {
 		LoggingWindow loginWindow = new LoggingWindow();
 		EditingWindow editWindow = new EditingWindow();
 		DisplayWindow displayWindow = new DisplayWindow();
+		HelpWindow helpWindow = new HelpWindow();
 		ViewController viewController = new ViewController(mainWindow,
-				loginWindow, editWindow,displayWindow);
+				loginWindow, editWindow,displayWindow,helpWindow);
 
 		try {
 			//To set the look and feel of the software according to the Operating System
@@ -49,5 +51,6 @@ public class Launcher {
 		editWindow.setVisible(true);
 		loginWindow.setVisible(false);
 		displayWindow.setVisible(false);
+		helpWindow.setVisible(false);
 	}
 }
