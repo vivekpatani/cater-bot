@@ -92,7 +92,9 @@ public class WebController {
 	 * @return frame's source
 	 */
 	public String getFrame(String frame) {
+		System.out.println(frame);
 		WebElement item = this.firefoxDriver.findElement(By.name(frame));
+		System.out.println("item"+item);
 		this.firefoxDriver.switchTo().frame(item);
 		return this.firefoxDriver.getPageSource();
 	}
@@ -418,6 +420,15 @@ public class WebController {
 		} finally {
 			wc.quit();
 		}
+	}
+
+	public void changeWindow() {
+		// TODO Auto-generated method stub
+		for (String winHandle : firefoxDriver.getWindowHandles()) {
+			this.firefoxDriver.switchTo().window(winHandle);
+			//System.out.println(winhandle);
+		}
+		
 	}
 
 }

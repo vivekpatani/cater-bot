@@ -1,4 +1,6 @@
 package Controller;
+
+import java.awt.List;
 /**
  * Andres, Sameksha, Shruti, Vivek
  * ViewController.java
@@ -10,6 +12,7 @@ import java.text.SimpleDateFormat;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 import Main.Constants;
 import ui.DisplayWindow;
@@ -19,10 +22,9 @@ import ui.LoggingWindow;
 import ui.MainWindow;
 
 public class ViewController implements ActionListener {
-	
-	public final static Logger LOGGER = LogManager
-			.getLogger(ViewController.class.getName());
-	
+
+	public final static Logger LOGGER = LogManager.getLogger(ViewController.class.getName());
+
 	private MainWindow mainWindow;
 	private LoggingWindow loginWindow;
 	private EditingWindow editWindow;
@@ -33,8 +35,10 @@ public class ViewController implements ActionListener {
 	private DisplayWindow displayWindow;
 	private String startDate;
 	private String endDate;
-	
-	public ViewController(MainWindow mainWindow, LoggingWindow loginWindow, EditingWindow editWindow, DisplayWindow displayWindow, HelpWindow helpWindow) {
+	// private FirefoxDriver firefoxDriver;
+
+	public ViewController(MainWindow mainWindow, LoggingWindow loginWindow, EditingWindow editWindow,
+			DisplayWindow displayWindow, HelpWindow helpWindow) {
 		this.mainWindow = mainWindow;
 		initButtonMain();
 		this.loginWindow = loginWindow;
@@ -51,17 +55,13 @@ public class ViewController implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == this.mainWindow.getStartButton()) {
+		if (e.getSource() == this.mainWindow.getStartButton()) {
 			this.mainWindow.setVisible(false);
 			this.editWindow.setVisible(true);
 		} else if (e.getSource() == this.loginWindow.getLoginButton()) {
 			try {
 				String pass_wrd = new String(this.loginWindow.getPassText().getPassword());
-				this.webController.login(
-						this.loginWindow.getUserText().getText(), 
-						pass_wrd);
-//				this.editWindow.getLogoutButton().setEnabled(true);
-//				this.editWindow.getExportExcelButton().setEnabled(true);
+				this.webController.login(this.loginWindow.getUserText().getText(), pass_wrd);
 			} catch (Exception e1) {
 				LOGGER.error(Constants.ERROR_MESSAGE, e1);
 			}
@@ -84,48 +84,44 @@ public class ViewController implements ActionListener {
 			this.webController.getFrame("right");
 			this.webController.exportToExcel();
 		} else if (e.getSource() == displayWindow.getLogoutButton()) {
+			this.webController.changeWindow();
 			this.webController.getFrame("header");
+
 			this.webController.logout();
 			this.webController.quit();
 		} else if (e.getSource() == displayWindow.getExitButton()) {
-			this.webController.getFrame("header");
-			this.webController.logout();
-			this.webController.quit();
 			this.displayWindow.setVisible(false);
 			this.displayWindow.validate();
 			this.displayWindow.dispose();
-		} else if(e.getSource() == displayWindow.getFilterButton()){
-				//Sameeksha Code Call
+		} else if (e.getSource() == displayWindow.getFilterButton()) {
 			this.webController.getFrame("header");
-			SimpleDateFormat formatter
-		     = new SimpleDateFormat ("MM/dd/yyyy");
-		 
-		 startDate = formatter.format(this.displayWindow.startDatePicker.getModel().getValue()).toString();
-		 endDate = formatter.format(this.displayWindow.endDatePicker.getModel().getValue()).toString();
+			SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+			startDate = formatter.format(this.displayWindow.startDatePicker.getModel().getValue()).toString();
+			endDate = formatter.format(this.displayWindow.endDatePicker.getModel().getValue()).toString();
 			this.webController.filterData(startDate, endDate);
-			} else if(e.getSource() == displayWindow.getHelpButton()){
-				this.helpWindow.setVisible(true);
-			} else if(e.getSource() == helpWindow.getBackButton()){
-				this.helpWindow.setVisible(false);
-				this.helpWindow.validate();
-			} else if(e.getSource() == displayWindow.getExitButton()){
-				this.helpWindow.setVisible(true);
-			}
+		} else if (e.getSource() == displayWindow.getHelpButton()) {
+			this.helpWindow.setVisible(true);
+		} else if (e.getSource() == helpWindow.getBackButton()) {
+			this.helpWindow.setVisible(false);
+			this.helpWindow.validate();
+		} else if (e.getSource() == displayWindow.getExitButton()) {
+			this.helpWindow.setVisible(true);
 		}
-	
+	}
+
 	public void initButtonMain() {
 		this.mainWindow.getStartButton().addActionListener(this);
 	}
-	
+
 	public void initButtonLogin() {
 		this.loginWindow.getLoginButton().addActionListener(this);
 		this.loginWindow.getCancelButton().addActionListener(this);
 	}
-	
+
 	public void initButtonEdit() {
 		this.editWindow.getScrapeButton().addActionListener(this);
 	}
-	
+
 	public void initDisplay() {
 		this.displayWindow.getExportExcelButton().addActionListener(this);
 		this.displayWindow.getLogoutButton().addActionListener(this);
@@ -134,7 +130,7 @@ public class ViewController implements ActionListener {
 		this.displayWindow.getFilterButton().addActionListener(this);
 		this.displayWindow.getHelpButton().addActionListener(this);
 	}
-	
+
 	public void initHelpWindow() {
 		this.helpWindow.getBackButton().addActionListener(this);
 		this.helpWindow.getExitButton().addActionListener(this);
