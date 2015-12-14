@@ -111,7 +111,7 @@ public class EditingWindow extends AbstractPanel {
 	}
 	
 	public void setUpTextField() {
-		this.urlText = new JTextField();
+		this.urlText = new JTextField("http://designcuisine.com/staff");
 		this.urlText.setPreferredSize(new Dimension(Constants.FIELD_WIDHT, Constants.FIELD_HEIGHT));
 		this.scrapePanel.add(this.urlText, super.setGridLocation(1, 0));
 		
