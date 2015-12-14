@@ -14,13 +14,14 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import Main.Constants;
 import Model.EmployeeInformation;
 import Model.EventInformation;
+import Observer.Observer;
 
 /** 
  * Andres, Sameksha, Shruti, Vivek
  * ExcelController.java
  * {Andres - Caterers 0.9}
  */
-public class ExcelController {
+public class ExcelController implements Observer {
 
 	public final static Logger LOGGER = LogManager.getLogger(ExcelController.class.getName());
 	private HSSFWorkbook workbook;
@@ -138,5 +139,12 @@ public class ExcelController {
 
 	public void setOut(FileOutputStream out) {
 		this.out = out;
+	}
+
+	public void update(Object... objects) {
+		if(objects != null) {
+			EmployeeInformation emp = (EmployeeInformation) objects[0];
+			this.writePersonalInfoToSheet(emp);
+		}		
 	}
 }
