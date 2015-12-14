@@ -50,6 +50,7 @@ public class ViewController implements ActionListener {
 		this.webController = new WebController(this.excelController);
 		this.displayWindow = displayWindow;
 		initDisplay();
+		this.personalController.addObserver(displayWindow);
 		this.helpWindow = helpWindow;
 		initHelpWindow();
 	}

@@ -21,6 +21,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import Main.Constants;
+import Observer.Observer;
+import Model.EmployeeInformation;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
@@ -28,7 +30,7 @@ import net.sourceforge.jdatepicker.impl.UtilDateModel;
 /**
  * Class used to Display Data and Export it to various formats.
  */
-public class DisplayWindow extends AbstractPanel {
+public class DisplayWindow extends AbstractPanel implements Observer{
 
 	/**
 	 * SerialID
@@ -55,6 +57,7 @@ public class DisplayWindow extends AbstractPanel {
 	private JLabel billingPeriodLabelData;
 	private JLabel emailLabelData;
 
+	private EmployeeInformation emp;
 	// Utility Button Panel
 	private JPanel buttonPanel;
 
@@ -375,6 +378,16 @@ public class DisplayWindow extends AbstractPanel {
 
 	void setEndDatePicker(JDatePickerImpl endDatePicker) {
 		this.endDatePicker = endDatePicker;
+	}
+
+	public void update(Object... objects) {
+		if(objects != null) {
+			this.emp = (EmployeeInformation) objects[0];
+			this.nameLabelData.setText(this.emp.getName());
+			this.addressLabelData.setText(this.emp.getAddress());
+			this.billingPeriodLabelData.setText(this.emp.getBillingStart());
+			this.emailLabelData.setText(this.emp.getEmail());
+		}
 	}
 
 }
