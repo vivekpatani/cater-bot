@@ -6,6 +6,7 @@
 package ui;
 
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
@@ -29,11 +30,18 @@ public class HelpWindow extends AbstractPanel{
 	
 	//This is used to display the help tips
 	private JPanel helpPanel;
+	private JPanel FAQPanel;
 	
 	//This is used to display Labels
 	private JLabel titleLabel;
 	private JLabel dataLabel;
-	private JLabel data;
+	private JLabel FAQLabel;
+	private JLabel FAQ1;
+	private JLabel FAQ2;
+	private JLabel data1;
+	private JLabel data2;
+	private JLabel FAQA1;
+	private JLabel FAQA2;
 	
 	//This is used to exit and back button
 	private JButton backButton;
@@ -62,7 +70,15 @@ public class HelpWindow extends AbstractPanel{
 		this.helpPanel.setBorder(BorderFactory
 				.createTitledBorder(Constants.HELP));
 		this.helpPanel.setLayout(new GridBagLayout());
+		
+		this.FAQPanel = new JPanel();
+		this.FAQPanel.setBorder(BorderFactory
+				.createTitledBorder(Constants.FAQ));
+		this.FAQPanel.setLayout(new GridBagLayout());
+		
+		super.getPanel().setLayout(new GridLayout(2, 1));
 		super.getPanel().add(this.helpPanel);
+		super.getPanel().add(this.FAQPanel);
 	}
 	
 	private void setUpLabel(){
@@ -72,17 +88,26 @@ public class HelpWindow extends AbstractPanel{
 		
 		//The actual Help
 		this.dataLabel = new JLabel(Constants.HELP);
-		this.helpPanel.add(this.dataLabel, super.setGridLocation(0, 1));
+		this.helpPanel.add(this.dataLabel, super.setGridLocation(0, 2));
 		
-		this.data = new JLabel("This is help\n"
-				+ "This is help\n"
-				+ "This is help\n"
-				+ "This is help\n"
-				+ "This is help\n"
-				+ "This is help\n"
-				+ "This is help\n"
-				+ "This is help\n");
-		this.helpPanel.add(this.data, super.setGridLocation(0, 2));
+		this.data1 = new JLabel(Constants.HELP1);
+		this.helpPanel.add(this.data1, super.setGridLocation(0, 4));
+		
+		this.data2 = new JLabel(Constants.HELP2);
+		this.helpPanel.add(this.data2, super.setGridLocation(0, 6));
+		
+		this.FAQ1 = new JLabel(Constants.FAQ1);
+		this.FAQPanel.add(this.FAQ1, super.setGridLocation(0, 2));
+		
+		this.FAQA1 = new JLabel(Constants.FAQA1);
+		this.FAQPanel.add(this.FAQA1, super.setGridLocation(0, 4));
+		
+		this.FAQ2 = new JLabel(Constants.FAQ2);
+		this.FAQPanel.add(this.FAQ2, super.setGridLocation(0, 6));
+		
+		this.FAQA2 = new JLabel(Constants.FAQA2);
+		this.FAQPanel.add(this.FAQA2, super.setGridLocation(0, 8));
+		
 	}
 	
 	private void setUpButton(){
@@ -97,7 +122,7 @@ public class HelpWindow extends AbstractPanel{
 		this.backButton = new JButton();
 		this.backButton.setText(Constants.BACK);
 		this.backButton.setEnabled(true);
-		this.helpPanel.add(this.backButton, super.setGridLocation(0, 4));
+		this.FAQPanel.add(this.backButton, super.setGridLocation(0, 10));
 	}
 
 	/**

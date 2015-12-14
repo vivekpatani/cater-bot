@@ -15,7 +15,7 @@ package Main;
 public class Constants {
 	
 	public static final String ERROR_MESSAGE = "Error Message: ";
-	public static final String SOFTWARE_NAME = "CateringXpert 0.9";
+	public static final String SOFTWARE_NAME = "CaterBot 0.9";
 	public static final String LOGO_DIR = "resources/logo.jpg";
 	public static final String START_BUTTON = "Lets Scrape the Page";
 	public static final String SUBMIT_URL_BUTTON = "Submit";
@@ -40,6 +40,13 @@ public class Constants {
 	public static final String START_DATE = "Start Date";
 	public static final String END_DATE = "End Date";
 	public static final String HELP = "Help";
+	public static final String FAQ = "FAQs";
+	public static final String HELP1 = "1. If you experiencing login issues and failed attempts, please wait for pages to load completely before you go to the next window.";
+	public static final String HELP2 = "1. If you experiencing incomplete information, please wait for pages to load completely before you go to the next window.";
+	public static final String FAQ1 = "FAQ 1. Do we store your password while scraping information?";
+	public static final String FAQA1 = "Answer: No, we don't!";
+	public static final String FAQ2 = "FAQ 2. Do we store your personal information or scrapped information?";
+	public static final String FAQA2 = "Answer: Umm.. Partially, but that is only to show you, once the software closes we erase all data.";
 	
 	public static final int WINDOW_WIDTH = 700;
 	public static final int WINDOW_HEIGHT = 700;

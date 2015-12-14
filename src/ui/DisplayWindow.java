@@ -183,7 +183,7 @@ public class DisplayWindow extends AbstractPanel implements Observer{
 		this.personalPanel.add(this.nameLabel, super.setGridLocation(0, 0));
 
 		// The name Label Data - Needs to taken from Editing Window
-		this.nameLabelData = new JLabel(Constants.NAME);
+		this.nameLabelData = new JLabel("jroque");
 		this.personalPanel.add(this.nameLabelData, super.setGridLocation(1, 0));
 
 		// The Address Label
@@ -191,7 +191,7 @@ public class DisplayWindow extends AbstractPanel implements Observer{
 		this.personalPanel.add(this.addressLabel, super.setGridLocation(0, 1));
 
 		// The address Label Data - Needs to taken from Editing Window
-		this.addressLabelData = new JLabel(Constants.ADDRESS);
+		this.addressLabelData = new JLabel("Bloomington");
 		this.personalPanel.add(this.addressLabelData, super.setGridLocation(1, 1));
 
 		// The billing Label
@@ -199,7 +199,7 @@ public class DisplayWindow extends AbstractPanel implements Observer{
 		this.personalPanel.add(this.billingPeriodLabel, super.setGridLocation(0, 2));
 
 		// The billing Label Data - Needs to taken from Editing Window
-		this.billingPeriodLabelData = new JLabel(Constants.BILLING_PERIOD);
+		this.billingPeriodLabelData = new JLabel(" ");
 		this.personalPanel.add(this.billingPeriodLabelData, super.setGridLocation(1, 2));
 
 		// The Email Label
@@ -207,7 +207,7 @@ public class DisplayWindow extends AbstractPanel implements Observer{
 		this.personalPanel.add(this.emailLabel, super.setGridLocation(0, 3));
 
 		// The Email Label
-		this.emailLabelData = new JLabel(Constants.EMAIL);
+		this.emailLabelData = new JLabel("j@p.com");
 		this.personalPanel.add(this.emailLabelData, super.setGridLocation(1, 3));
 
 		// The Start Date Label
