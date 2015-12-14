@@ -7,6 +7,7 @@ package Controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,6 +20,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import Main.Constants;
 import Model.EventInformation;
+import Visualization.ChartPanel;
 
 /**
  * WebController
@@ -28,7 +30,7 @@ import Model.EventInformation;
  * @author drusc0
  *
  */
-public class WebController {
+public class WebController extends Observable {
 
 	public final static Logger LOGGER = LogManager
 			.getLogger(WebController.class.getName());
@@ -42,6 +44,8 @@ public class WebController {
 	private String targetPage;
 
 	private String followingPage;
+	
+	static ChartPanel cp = new ChartPanel();
 
 	public WebController(String url, ExcelController excelController) {
 		this.excelController = excelController;
@@ -129,7 +133,7 @@ public class WebController {
 	 * @param name
 	 * @return event information name
 	 */
-	public void getEventListBy(String name, List<EventInformation> lst) {
+	public List<EventInformation> getEventListBy(String name, List<EventInformation> lst) {
 		try {
 			// get table table based on name
 			WebElement table = this.firefoxDriver.findElement(By.id(name));
@@ -202,6 +206,8 @@ public class WebController {
 		} catch (Exception e) {
 			LOGGER.warn(e);
 		}
+		
+		return lst;
 	}
 
 	/**
@@ -357,6 +363,11 @@ public class WebController {
 		this.excelController.writeEventToSheet(eventList);
 		
 		this.firefoxDriver.switchTo().parentFrame();
+		
+		//for visualization
+		ChartPanel.setObjHolder(this.getEventListBy("eventsList", eventList));
+		setChanged();
+		notifyObservers(this.getEventListBy("eventsList", eventList));
 	}
 	
 
@@ -410,7 +421,13 @@ public class WebController {
 			wc.getFrame("right");
 			Thread.sleep(2000);
 			//List<EventInformation> eventList = wc.getEventListBy("eventsList");
+			
+			//only add this two lines of code where viz button is clicked
+			// if export to excel is population the array list correctly it will work
+			wc.addObserver(cp);
 			wc.exportToExcel();
+			ChartPanel.main();
+			
 			wc.getFrame("right");
 			//wc.getFrame("header");
 			//wc.logout();
